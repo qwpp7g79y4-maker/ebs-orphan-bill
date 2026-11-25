@@ -1,6 +1,6 @@
 # Kwaliteit
 
-Meting van 2026-11-25. Gemeten op commit 8c0b33a5d0e9fa23be0bfd88661d02d108d7ca62 (`origin/main`, "Set bin_name so the usage line has no .exe on Windows"), in een schone worktree. Deze commit voegt alleen documentatie toe; de meting hieronder geldt voor codecommit 8c0b33a.
+Meting van 2026-11-25. Gemeten op commit a483cd8cf9e0e4e653cd9d57914f4412ee77a493 ("Do not price creating, deleting, deleted or error volumes as a full month of orphan cost"), in een schone worktree. Deze commit voegt alleen documentatie toe; de meting hieronder geldt voor codecommit a483cd8.
 
 Nederlandse samenvatting van `QUALITY.md`; de Engelse tekst is leidend. Toolchain: stable rustc 1.99.0 / cargo 1.99.0, Linux x86_64. Geen tag, niet gepubliceerd, geen push. Alleen de vier commando's in de tabel hieronder zijn uitgevoerd. De rest is niet uitgevoerd (not run).
 
@@ -10,18 +10,18 @@ Nederlandse samenvatting van `QUALITY.md`; de Engelse tekst is leidend. Toolchai
 | --- | ---: |
 | `cargo fmt --check` | 0 |
 | `cargo clippy --all-targets --locked -- -D warnings` | 0 |
-| `cargo test --locked` (debug) | 0 (197 geslaagd, 0 mislukt, 0 genegeerd) |
-| `cargo test --release --locked` | 0 (197 geslaagd, 0 mislukt, 0 genegeerd) |
+| `cargo test --locked` (debug) | 0 (198 geslaagd, 0 mislukt, 0 genegeerd) |
+| `cargo test --release --locked` | 0 (198 geslaagd, 0 mislukt, 0 genegeerd) |
 
 Niet uitgevoerd (not run) in deze meting: clippy en tests met `cargo +1.85` (de gedeclareerde ondergrens), clippy voor de Windows- en macOS-doelen, `cargo package` met de testrun in de uitgepakte crate, `cargo deny`, `cargo about`, `scripts/check-glibc.sh`, `cargo audit`, en de run van het programma met gesloten of volle standaarduitvoer. Hierover doet dit bestand geen uitspraak.
 
 ## Testresultaat per doel
 
-Aantallen van de debug-run. De release-run gaf in totaal 197 geslaagd, 0 mislukt, 0 genegeerd.
+Aantallen van de debug-run. De release-run gaf in totaal 198 geslaagd, 0 mislukt, 0 genegeerd.
 
 | Doel | Geslaagd | Mislukt | Genegeerd |
 | --- | ---: | ---: | ---: |
-| unittests `src/lib.rs` | 85 | 0 | 0 |
+| unittests `src/lib.rs` | 86 | 0 | 0 |
 | unittests `src/main.rs` | 0 | 0 | 0 |
 | `tests/claims.rs` | 9 | 0 | 0 |
 | `tests/cli.rs` | 71 | 0 | 0 |
@@ -37,4 +37,4 @@ Aantallen van de debug-run. De release-run gaf in totaal 197 geslaagd, 0 mislukt
 | `tests/verbosity.rs` | 4 | 0 | 0 |
 | `tests/version.rs` | 1 | 0 | 0 |
 | doc-tests | 0 | 0 | 0 |
-| totaal | 197 | 0 | 0 |
+| totaal | 198 | 0 | 0 |

@@ -10,7 +10,7 @@ The report identifies orphans and monthly cost. It does not delete volumes or sn
 
 ## Quality
 
-`cargo test --locked` passes 197 tests and fails 0 on Linux, in debug and in release, on stable and on Rust 1.85. Some tests run on Linux or Unix only, so the count is lower on macOS and Windows. See `QUALITY.md`.
+`cargo test --locked` passes 198 tests and fails 0 on Linux, in debug and in release, on stable and on Rust 1.85. Some tests run on Linux or Unix only, so the count is lower on macOS and Windows. See `QUALITY.md`.
 
 ## Installation
 

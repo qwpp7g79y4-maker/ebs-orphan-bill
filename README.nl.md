@@ -12,7 +12,7 @@ Het rapport vindt wezen en maandkosten. Het verwijdert geen volumes of snapshots
 
 ## Kwaliteit
 
-`cargo test --locked` slaagt voor 197 tests en faalt voor 0 op Linux, in debug en in release, op stable en op Rust 1.85. Sommige tests draaien alleen op Linux of Unix, dus op macOS en Windows is het aantal lager. Zie `QUALITY.md`.
+`cargo test --locked` slaagt voor 198 tests en faalt voor 0 op Linux, in debug en in release, op stable en op Rust 1.85. Sommige tests draaien alleen op Linux of Unix, dus op macOS en Windows is het aantal lager. Zie `QUALITY.md`.
 
 ## Installatie
 
