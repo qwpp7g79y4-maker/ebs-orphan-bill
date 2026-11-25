@@ -425,6 +425,13 @@ fn price_volumes(
         if !volume.loose {
             continue;
         }
+        if let Some(state) = volume.transient_state {
+            warnings.push(format!(
+                "{}: state is {state} and attachments are empty; not priced as an orphan",
+                volume.id
+            ));
+            continue;
+        }
         if volume.state_in_use {
             warnings.push(format!(
                 "{}: state is in-use and attachments are empty",
@@ -950,6 +957,34 @@ mod tests {
         assert!(text.contains("volume region eu-west-1 differs from price region us-east-1"));
         assert!(text.contains("availability zone is not a region name"));
         assert!(!text.contains("SECRETZONE"));
+    }
+
+    #[test]
+    fn creating_deleting_deleted_and_error_volumes_are_not_priced_as_orphans() {
+        for state in ["creating", "deleting", "deleted", "error"] {
+            let json = format!(
+                r#"{{"Volumes":[{{"VolumeId":"vol-11111111111111111","Size":100,"VolumeType":"gp2","State":"{state}","Attachments":[]}}]}}"#
+            );
+            let bill = bill_from_inputs(&[file("v.json", &json)], &opts(Some("2026-11-09"), None))
+                .unwrap();
+            assert!(bill.volumes.is_empty(), "{state}");
+            assert!(!bill.threshold_exceeded, "{state}");
+            assert!(
+                bill.warnings.iter().any(|line| line.contains(&format!(
+                    "vol-11111111111111111: state is {state} and attachments are empty; not priced"
+                ))),
+                "{state}: {:?}",
+                bill.warnings
+            );
+        }
+        for state in ["available", "in-use"] {
+            let json = format!(
+                r#"{{"Volumes":[{{"VolumeId":"vol-11111111111111111","Size":100,"VolumeType":"gp2","State":"{state}","Attachments":[]}}]}}"#
+            );
+            let bill = bill_from_inputs(&[file("v.json", &json)], &opts(Some("2026-11-09"), None))
+                .unwrap();
+            assert_eq!(bill.volumes.len(), 1, "{state}");
+        }
     }
 
     #[test]

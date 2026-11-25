@@ -18,6 +18,8 @@ pub struct Volume {
     pub throughput_mib: Option<u64>,
     pub loose: bool,
     pub state_in_use: bool,
+    /// A State where the volume is not a settled orphan: creating, deleting, deleted, or error.
+    pub transient_state: Option<&'static str>,
     pub region: Option<String>,
     pub az_unparsed: bool,
 }
@@ -517,6 +519,12 @@ fn one_volume(file: &str, obj: &Map<String, Value>) -> Result<Volume, Error> {
         Some(Value::String(text)) => text == "in-use",
         Some(_) => return Err(Error::new(format!("{file}: {id}: bad State"))),
     };
+    let transient_state = match obj.get("State") {
+        Some(Value::String(text)) => ["creating", "deleting", "deleted", "error"]
+            .into_iter()
+            .find(|name| text == name),
+        _ => None,
+    };
     let (region, az_unparsed) = match obj.get("AvailabilityZone") {
         None | Some(Value::Null) => (None, false),
         Some(Value::String(text)) => match region_from_az(text) {
@@ -533,6 +541,7 @@ fn one_volume(file: &str, obj: &Map<String, Value>) -> Result<Volume, Error> {
         throughput_mib,
         loose,
         state_in_use,
+        transient_state,
         region,
         az_unparsed,
     })
