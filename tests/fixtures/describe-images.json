@@ -1,0 +1,35 @@
+{
+    "Images": [
+        {
+            "ImageId": "ami-0123456789abcdef0",
+            "Name": "web | server « v2 »",
+            "Architecture": "x86_64",
+            "State": "available",
+            "RootDeviceName": "/dev/xvda",
+            "BlockDeviceMappings": [
+                {
+                    "DeviceName": "/dev/xvda",
+                    "Ebs": {
+                        "DeleteOnTermination": true,
+                        "SnapshotId": "snap-0d1b2c3d4e5f60718",
+                        "VolumeSize": 30,
+                        "VolumeType": "gp3",
+                        "Encrypted": false
+                    }
+                },
+                {"DeviceName": "/dev/sdb", "VirtualName": "ephemeral0"},
+                {"DeviceName": "/dev/sdc", "NoDevice": ""}
+            ]
+        },
+        {
+            "ImageId": "ami-0fedcba9876543210",
+            "Name": "instance-store",
+            "State": "available",
+            "BlockDeviceMappings": []
+        },
+        {
+            "ImageId": "ami-0aaaaaaaaaaaaaaaa",
+            "State": "available"
+        }
+    ]
+}

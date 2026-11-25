@@ -1,0 +1,24 @@
+{
+  "OwnerId": "123456789012",
+  "Images": [
+    {
+      "ImageId": "ami-11111111111111111",
+      "Name": "demo",
+      "Description": "Created by CreateImage for SECRETKEY",
+      "OwnerId": "123456789012",
+      "BlockDeviceMappings": [
+        {
+          "DeviceName": "/dev/sda1",
+          "Ebs": {
+            "SnapshotId": "snap-22222222222222222",
+            "VolumeSize": 40
+          }
+        },
+        {
+          "DeviceName": "/dev/sdb",
+          "VirtualName": "ephemeral0"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+    "Volumes": [
+        {
+            "Iops": 3000,
+            "Throughput": 125,
+            "VolumeType": "gp3",
+            "MultiAttachEnabled": false,
+            "VolumeId": "vol-0a1b2c3d4e5f60718",
+            "Size": 125,
+            "SnapshotId": "",
+            "AvailabilityZone": "us-east-1a",
+            "State": "available",
+            "CreateTime": "2026-08-01T09:30:12.345Z",
+            "Attachments": [],
+            "Encrypted": true,
+            "KmsKeyId": "arn:aws:kms:us-east-1:123456789012:key/00000000-0000-0000-0000-000000000000",
+            "Tags": [
+                {"Key": "Name", "Value": "données «ünï» | \"quoted\" \\ back\nline"},
+                {"Key": "日本語", "Value": "🚀"}
+            ]
+        },
+        {
+            "VolumeId": "vol-049df61146c4d7901",
+            "Size": 8,
+            "VolumeType": "gp2",
+            "AvailabilityZone": "us-east-1b",
+            "State": "available",
+            "Attachments": [],
+            "Tags": []
+        },
+        {
+            "Iops": 1000,
+            "VolumeType": "io1",
+            "VolumeId": "vol-0fedcba9876543210",
+            "Size": 100,
+            "AvailabilityZone": "us-east-1c",
+            "State": "available",
+            "Attachments": [],
+            "Encrypted": false
+        },
+        {
+            "Iops": 100,
+            "VolumeType": "io2",
+            "VolumeId": "vol-0aaaaaaaaaaaaaaaa",
+            "Size": 10,
+            "AvailabilityZone": "us-east-1a",
+            "State": "available",
+            "Attachments": []
+        },
+        {
+            "VolumeType": "st1",
+            "VolumeId": "vol-0bbbbbbbbbbbbbbbb",
+            "Size": 500,
+            "AvailabilityZone": "us-east-1a",
+            "State": "available",
+            "Attachments": []
+        },
+        {
+            "VolumeType": "sc1",
+            "VolumeId": "vol-0cccccccccccccccc",
+            "Size": 500,
+            "AvailabilityZone": "us-east-1a",
+            "State": "available"
+        },
+        {
+            "VolumeType": "gp3",
+            "VolumeId": "vol-0dddddddddddddddd",
+            "Size": 1,
+            "AvailabilityZone": "us-east-1a",
+            "State": "available",
+            "Attachments": []
+        },
+        {
+            "VolumeId": "vol-0eeeeeeeeeeeeeeee",
+            "Size": 1,
+            "VolumeType": "gp2"
+        },
+        {
+            "Attachments": [
+                {
+                    "AttachTime": "2026-08-01T09:35:00+00:00",
+                    "Device": "/dev/sdf",
+                    "InstanceId": "i-0123456789abcdef0",
+                    "State": "attached",
+                    "VolumeId": "vol-0ffffffffffffffff",
+                    "DeleteOnTermination": false
+                },
+                {
+                    "AttachTime": "2026-08-01T09:36:00+00:00",
+                    "Device": "/dev/sdg",
+                    "InstanceId": "i-0fedcba9876543210",
+                    "State": "attached",
+                    "VolumeId": "vol-0ffffffffffffffff",
+                    "DeleteOnTermination": true
+                }
+            ],
+            "VolumeType": "io2",
+            "VolumeId": "vol-0ffffffffffffffff",
+            "Size": 4000,
+            "Iops": 64000,
+            "AvailabilityZone": "us-east-1a",
+            "State": "in-use",
+            "MultiAttachEnabled": true
+        }
+    ]
+}

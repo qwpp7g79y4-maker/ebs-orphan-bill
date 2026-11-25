@@ -1,0 +1,134 @@
+.TH EBS-WEES-BILL 1 "2026-11-19" "ebs-wees-bill 1.0.0" "User Commands"
+.SH NAME
+ebs-wees-bill \- list loose EBS volumes and old snapshots without an AMI, with their monthly cost
+.SH SYNOPSIS
+.nf
+Find loose EBS volumes and old snapshots without an AMI, and their monthly cost. Reads files only, no network.
+
+Usage: ebs-wees-bill [OPTIONS] <FILE>...
+
+Arguments:
+  <FILE>...  `describe-volumes`, `describe-snapshots`, or `describe-images` JSON. Files, gzip, directories, or `-` for standard input
+
+Options:
+      --prices <FILE>           Price file. The default is the built-in US East (N. Virginia) EBS list
+      --as-of <YYYY-MM-DD>      Date ages are measured to, `YYYY-MM-DD`, midnight UTC. Without it, snapshots are not classified
+      --older-than-days <DAYS>  A snapshot is old when its age is strictly greater than this many days [default: 30]
+      --fail-usd <AMOUNT>       Exit 1 when a priced orphan's exact monthly USD is strictly greater than this
+      --json                    Print JSON instead of the text table
+      --md                      Print a Markdown report (tables) instead of the text table
+      --output <FILE>           Write the report to this file instead of standard output. The file is replaced whole or not at all; a symlink or a non-regular file is refused
+      --quiet                   Hide the warnings; print only the result and errors
+      --verbose                 Print progress on standard error: each input read, then one line of counts
+  -h, --help                    Print help
+  -V, --version                 Print version
+
+Exit codes: 0 ok, 1 a priced orphan costs more than --fail-usd, 2 input or usage error, or standard output that cannot be written.
+.fi
+.SH DESCRIPTION
+ebs-wees-bill reads local JSON saved from
+.BR "aws ec2 describe-volumes" ,
+.BR "aws ec2 describe-snapshots" ,
+and
+.BR "aws ec2 describe-images" .
+It lists the loose volumes and the old standard snapshots that no image references, with a monthly USD figure for each priced row.
+It reads files only, makes no network call, and uses no AWS SDK.
+The report identifies orphans and monthly cost.
+It does not delete volumes or snapshots.
+The monthly figure is an estimate from list prices, not the invoice: the text report has one estimate line and the totals are \fBestimated_usd_month\fR, and the JSON has \fB"estimate": true\fR.
+.PP
+A volume is loose when
+.B Attachments
+is missing or empty.
+A snapshot is old when its
+.B StorageTier
+is standard or missing, its age is strictly greater than
+.BR --older-than-days ,
+and no image references it in
+.BR BlockDeviceMappings[].Ebs.SnapshotId .
+Without a
+.B describe-images
+document, snapshots are not classified as orphans.
+Age is measured to
+.BR --as-of ;
+without it, volumes are still priced and snapshots are not classified.
+.PP
+Prices are the built-in US East (N. Virginia) rates for a full month of the provisioned size.
+Magnetic standard volumes and archive snapshots are listed and not priced.
+The free tier is not applied.
+Snapshot cost is an upper bound.
+.PP
+An input is a file, a single gzip member (recognised by its first bytes, not by the file name), a directory, or
+.B -
+for standard input.
+A directory is read recursively, at most 64 levels deep.
+An input file may be at most 268435456 bytes, also after decompression.
+A document may hold at most 16777216 JSON values plus object keys, or the command exits 2.
+A file is read whole into memory, and memory use is a multiple of the file size that depends on the shape: about 10 times for a realistic export, about 54 times for 6000000 numbers in one array (a 12000023-byte file took about 619 MiB), and about 150 times for arrays nested 120 deep. The \-\-json report is written straight into one string; for 2320000 volumes it took 9.67 s and 2.4 GiB.
+Because of the value limit, the memory of one document is bounded at about 5 GiB (measured for arrays nested 120 deep, the worst shape tried).
+The size limit applies to each file; all files of one run are held in memory together.
+Control characters, white space other than the plain space, and invisible and direction-changing characters in a file name and in an argument echoed in a usage error are shown as \fB\\u{..}\fR escapes.
+In the price source, a control character is refused with exit 2, and the other hidden characters are shown as escapes.
+A bad file in a directory stops the run with exit 2.
+.SH OPTIONS
+.TP
+.B --prices \fIFILE\fR
+Read the prices from this file instead of the built-in list.
+The file has the same shape as the built-in quote.
+.TP
+.B --as-of \fIYYYY-MM-DD\fR
+The date ages are measured to, at midnight UTC.
+The year runs from 1970 to 2199.
+.TP
+.B --older-than-days \fIDAYS\fR
+A snapshot is old when its age is strictly greater than this many days.
+The default is 30.
+.TP
+.B --fail-usd \fIAMOUNT\fR
+Exit 1 when the exact monthly USD of a priced orphan is strictly greater than
+.IR AMOUNT .
+.I AMOUNT
+is plain digits with an optional fraction, at most 40 characters, at most 28 decimals (zeros at the end count), and no more digits than a decimal holds exactly, or the command exits 2.
+For a snapshot priced from its size in bytes the GB figure is rounded once, half away from zero, to the digits a decimal holds. The monthly amount is that figure times the rate, kept exact, and the comparison uses that exact amount.
+.TP
+.B --json
+Print one JSON object on standard output instead of the text table.
+.TP
+.B --md
+Print a Markdown report instead of the text table: the same amounts, one table for volumes and one for snapshots, the estimate line, and the totals. A pipe in a cell is escaped as \fB\e|\fR and a line break as a \fB\eu{..}\fR escape. It cannot be combined with \fB--json\fR.
+.TP
+.B --output \fIFILE\fR
+Write the report to this file instead of standard output; standard output stays empty. The report is written to a temporary file in the same directory and renamed over \fIFILE\fR, so the file is the old one or the whole new one. An existing regular file is replaced. A symlink is refused and not followed, as is a directory or any file that is not a regular file. A missing directory is not created. A write error exits 2 with a message.
+.TP
+.B --quiet
+Hide the warnings from the text report and from standard error. The result on standard output and the exit code do not change; the JSON object keeps its \fBwarnings\fR array.
+.TP
+.B --verbose
+Print progress on standard error: one line per input read, then one line of counts. Standard output does not change. \fB--quiet\fR and \fB--verbose\fR together are a usage error (exit 2).
+.TP
+.B -h, --help
+Print the usage text.
+.TP
+.B -V, --version
+Print the version.
+.SH EXIT STATUS
+.TP
+.B 0
+The report was written.
+.TP
+.B 1
+.B --fail-usd
+is set and a priced orphan costs more than that amount.
+.TP
+.B 2
+An input or usage error, or standard output that is closed or cannot be written.
+A closed standard output is recognised on Linux only.
+The message goes to standard error.
+.SH EXAMPLES
+.nf
+ebs-wees-bill --as-of 2026-11-09 examples/volumes.json examples/snapshots.json examples/images.json
+ebs-wees-bill --as-of 2026-11-09 --fail-usd 16 examples/volumes.json examples/snapshots.json examples/images.json
+ebs-wees-bill --as-of 2026-11-09 --json examples/volumes.json examples/snapshots.json examples/images.json
+.fi
+.SH SEE ALSO
+README.md and QUALITY.md in the source tree.

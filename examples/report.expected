@@ -1,0 +1,30 @@
+warning: examples/snapshots.json: page may be partial; nextToken was not followed
+warning: vol-44444444444444444: volume type standard is not priced
+warning: snap-44444444444444444: snapshot tier archive is not priced
+prices: USD, source https://aws.amazon.com/ebs/pricing/, date 2026-11-09, region us-east-1
+meter published: 2026-11-07
+as-of: 2026-11-09
+older-than-days: 30
+free tier not applied: the pricing page includes 30 GB of storage, 2000000 I/Os, and 1 GB of snapshot storage for the account, and this export is not the whole account
+not priced: magnetic standard volumes (0.05 USD per GB-month), snapshot archive storage (0.0125 USD per GB-month) and archive retrieval (0.03 USD per GB), fast snapshot restore, direct APIs, time-based copy, volume initialization, and volume clones. Priced types are gp2, gp3, io1, io2, st1, sc1, and standard snapshots
+gp3 throughput is 0.04 USD per MB/s-month, the meter 40.96 USD per GiBps-month divided by 1024. The pricing page example still says 0.06
+io2 IOPS are tiered per volume: the first 32000 at 0.065 USD, then to 64000 at 0.0455 USD, then 0.03185 USD. The pricing page example rounds the middle meter to 0.046; this tool uses the meter
+snapshot size is an upper bound: FullSnapshotSizeInBytes when present (basis full-snapshot-bytes), otherwise VolumeSize (basis volume-size). describe-snapshots does not return changed blocks
+this report identifies orphans and monthly cost. It does not delete volumes or snapshots
+Estimate from list prices, not your AWS invoice (free tier, credits, discounts not included)
+
+volumes
+id                     type      size_gb  iops  mib_s  storage_usd  iops_usd  throughput_usd  usd_month
+vol-11111111111111111  gp3           100  4000    200         8.00      5.00            3.00      16.00
+vol-22222222222222222  gp2            50                      5.00                                 5.00
+vol-44444444444444444  standard       20                  unpriced  unpriced        unpriced   unpriced
+volume estimated_usd_month=21.00
+
+snapshots
+id                      age_days  gb  usd_month  size_basis   tier
+snap-11111111111111111        31  10       0.50  volume-size  standard
+snap-44444444444444444        31  80   unpriced  volume-size  archive
+snapshot estimated_usd_month=0.50
+
+estimated_usd_month=21.50
+note: this report identifies orphans and monthly cost. It does not delete volumes or snapshots

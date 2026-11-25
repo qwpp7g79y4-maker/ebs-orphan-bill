@@ -1,0 +1,39 @@
+{
+  "OwnerId": "123456789012",
+  "NextToken": "SECRETTOKEN",
+  "Snapshots": [
+    {
+      "SnapshotId": "snap-11111111111111111",
+      "VolumeSize": 10,
+      "StartTime": "2026-10-09T00:00:00.000Z",
+      "StorageTier": "standard",
+      "State": "completed",
+      "OwnerId": "123456789012",
+      "Description": "monthly orphan"
+    },
+    {
+      "SnapshotId": "snap-22222222222222222",
+      "VolumeSize": 40,
+      "StartTime": "2026-01-01T00:00:00Z",
+      "StorageTier": "standard",
+      "State": "completed",
+      "OwnerId": "123456789012",
+      "Description": "Created by CreateImage(i-11111111111111111) for SECRETKEY"
+    },
+    {
+      "SnapshotId": "snap-33333333333333333",
+      "VolumeSize": 7,
+      "StartTime": "2026-10-10T00:00:00.000Z",
+      "StorageTier": "standard",
+      "State": "completed"
+    },
+    {
+      "SnapshotId": "snap-44444444444444444",
+      "VolumeSize": 80,
+      "StartTime": "2026-10-09T00:00:00.000Z",
+      "StorageTier": "archive",
+      "State": "completed",
+      "OwnerId": "123456789012"
+    }
+  ]
+}

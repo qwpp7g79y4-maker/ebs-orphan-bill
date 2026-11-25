@@ -1,0 +1,48 @@
+{
+  "OwnerId": "123456789012",
+  "Volumes": [
+    {
+      "VolumeId": "vol-11111111111111111",
+      "AvailabilityZone": "us-east-1a",
+      "Size": 100,
+      "VolumeType": "gp3",
+      "Iops": 4000,
+      "Throughput": 200,
+      "State": "available",
+      "Attachments": [],
+      "Encrypted": true,
+      "KmsKeyId": "arn:aws:kms:us-east-1:123456789012:key/SECRETKEY"
+    },
+    {
+      "VolumeId": "vol-22222222222222222",
+      "AvailabilityZone": "us-east-1a",
+      "Size": 50,
+      "VolumeType": "gp2",
+      "State": "available",
+      "Attachments": []
+    },
+    {
+      "VolumeId": "vol-33333333333333333",
+      "AvailabilityZone": "us-east-1a",
+      "Size": 80,
+      "VolumeType": "io1",
+      "Iops": 1000,
+      "State": "in-use",
+      "Attachments": [
+        {
+          "InstanceId": "i-11111111111111111",
+          "State": "attached",
+          "Device": "/dev/sdf"
+        }
+      ]
+    },
+    {
+      "VolumeId": "vol-44444444444444444",
+      "AvailabilityZone": "us-east-1a",
+      "Size": 20,
+      "VolumeType": "standard",
+      "State": "available",
+      "Attachments": []
+    }
+  ]
+}

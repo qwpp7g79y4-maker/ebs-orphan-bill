@@ -1,0 +1,61 @@
+{
+    "Snapshots": [
+        {
+            "Description": "nightly backup | « » \"q\"",
+            "Encrypted": false,
+            "OwnerId": "123456789012",
+            "Progress": "100%",
+            "SnapshotId": "snap-0a1b2c3d4e5f60718",
+            "StartTime": "2026-09-01T00:00:00.000Z",
+            "State": "completed",
+            "VolumeId": "vol-0a1b2c3d4e5f60718",
+            "VolumeSize": 8,
+            "StorageTier": "standard",
+            "Tags": [{"Key": "Näme", "Value": "a|b\nc"}]
+        },
+        {
+            "SnapshotId": "snap-0b1b2c3d4e5f60718",
+            "StartTime": "2026-09-01T12:30:00+00:00",
+            "State": "completed",
+            "VolumeSize": 100,
+            "FullSnapshotSizeInBytes": 4294967296
+        },
+        {
+            "Description": "mentions ami-0123456789abcdef0 but is not linked to it",
+            "SnapshotId": "snap-0c1b2c3d4e5f60718",
+            "StartTime": "2026-08-15T08:00:00.123Z",
+            "State": "completed",
+            "VolumeSize": 2,
+            "StorageTier": "standard"
+        },
+        {
+            "Description": "Created by CreateImage(i-0123456789abcdef0) for ami-0123456789abcdef0",
+            "SnapshotId": "snap-0d1b2c3d4e5f60718",
+            "StartTime": "2026-01-01T00:00:00.000Z",
+            "State": "completed",
+            "VolumeSize": 30,
+            "StorageTier": "standard"
+        },
+        {
+            "SnapshotId": "snap-0e1b2c3d4e5f60718",
+            "StartTime": "2026-01-01T00:00:00.000Z",
+            "State": "completed",
+            "VolumeSize": 80,
+            "StorageTier": "archive"
+        },
+        {
+            "SnapshotId": "snap-0f1b2c3d4e5f60718",
+            "StartTime": "2026-11-01T00:00:00.000Z",
+            "State": "completed",
+            "VolumeSize": 50,
+            "StorageTier": "standard"
+        },
+        {
+            "SnapshotId": "snap-001b2c3d4e5f60718",
+            "StartTime": "2026-08-01T00:00:00.000Z",
+            "State": "pending",
+            "Progress": "42%",
+            "VolumeSize": 50
+        }
+    ]
+}
