@@ -13,7 +13,9 @@ Toolchain: stable rustc 1.99.0 / cargo 1.99.0, Linux x86_64. No tag, no publish,
 | `cargo test --locked` (debug) | 0 (198 passed, 0 failed, 0 ignored) |
 | `cargo test --release --locked` | 0 (198 passed, 0 failed, 0 ignored) |
 
-Not run in this measurement: `cargo +1.85` (declared minimum) clippy and tests, clippy for the Windows and macOS targets, `cargo package` and the test run in the unpacked crate, `cargo deny`, `cargo about`, `scripts/check-glibc.sh`, `cargo audit`, and the run of the binary against a closed or full standard output. These are not run, so this file makes no claim about them.
+Measured on 2026-11-25 with toolchain 1.85.1 (`rustc 1.85.1`, `cargo +1.85`, the declared minimum) on code commit a483cd8: `cargo +1.85 fmt --check` exit 0; `cargo +1.85 clippy --all-targets --locked -- -D warnings` exit 0; `cargo +1.85 test --locked` exit 0 (198 passed, 0 failed, 0 ignored); `cargo +1.85 test --release --locked` exit 0 (198 passed, 0 failed, 0 ignored).
+
+Not run in this measurement: clippy for the Windows and macOS targets, `cargo package` and the test run in the unpacked crate, `cargo deny`, `cargo about`, `scripts/check-glibc.sh`, `cargo audit`, and the run of the binary against a closed or full standard output. These are not run, so this file makes no claim about them.
 
 ## Test result per target
 

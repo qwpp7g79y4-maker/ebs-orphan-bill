@@ -13,7 +13,9 @@ Nederlandse samenvatting van `QUALITY.md`; de Engelse tekst is leidend. Toolchai
 | `cargo test --locked` (debug) | 0 (198 geslaagd, 0 mislukt, 0 genegeerd) |
 | `cargo test --release --locked` | 0 (198 geslaagd, 0 mislukt, 0 genegeerd) |
 
-Niet uitgevoerd (not run) in deze meting: clippy en tests met `cargo +1.85` (de gedeclareerde ondergrens), clippy voor de Windows- en macOS-doelen, `cargo package` met de testrun in de uitgepakte crate, `cargo deny`, `cargo about`, `scripts/check-glibc.sh`, `cargo audit`, en de run van het programma met gesloten of volle standaarduitvoer. Hierover doet dit bestand geen uitspraak.
+Gemeten op 2026-11-25 met toolchain 1.85.1 (`rustc 1.85.1`, `cargo +1.85`, de gedeclareerde ondergrens) op codecommit a483cd8: `cargo +1.85 fmt --check` exit 0; `cargo +1.85 clippy --all-targets --locked -- -D warnings` exit 0; `cargo +1.85 test --locked` exit 0 (198 geslaagd, 0 mislukt, 0 genegeerd); `cargo +1.85 test --release --locked` exit 0 (198 geslaagd, 0 mislukt, 0 genegeerd).
+
+Niet uitgevoerd (not run) in deze meting: clippy voor de Windows- en macOS-doelen, `cargo package` met de testrun in de uitgepakte crate, `cargo deny`, `cargo about`, `scripts/check-glibc.sh`, `cargo audit`, en de run van het programma met gesloten of volle standaarduitvoer. Hierover doet dit bestand geen uitspraak.
 
 ## Testresultaat per doel
 
