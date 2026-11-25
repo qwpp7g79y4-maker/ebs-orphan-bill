@@ -29,6 +29,7 @@ const VERSION: &str = env!("CARGO_PKG_VERSION");
 #[derive(Parser)]
 #[command(
     name = "ebs-wees-bill",
+    bin_name = "ebs-wees-bill",
     version = VERSION,
     about = "Find loose EBS volumes and old snapshots without an AMI, and their monthly cost. Reads files only, no network.",
     after_help = "Exit codes: 0 ok, 1 a priced orphan costs more than --fail-usd, 2 input or usage error, or standard output that cannot be written."
