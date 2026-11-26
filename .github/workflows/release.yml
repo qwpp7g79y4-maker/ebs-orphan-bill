@@ -76,21 +76,21 @@ jobs:
           name: licenses
       - name: Check the highest glibc symbol
         if: matrix.target == 'x86_64-unknown-linux-gnu'
-        run: bash _main/scripts/check-glibc.sh "target/${{ matrix.target }}/release/ebs-wees-bill" 2.34
+        run: bash _main/scripts/check-glibc.sh "target/${{ matrix.target }}/release/ebs-orphan-bill" 2.34
       - name: Package
         shell: bash
         run: |
-          name="ebs-wees-bill-${TAG}-${{ matrix.target }}"
+          name="ebs-orphan-bill-${TAG}-${{ matrix.target }}"
           mkdir -p "dist/$name"
           cp README.md README.nl.md QUALITY.md CHANGELOG.md LICENSE-MIT LICENSE-APACHE THIRD-PARTY-LICENSES.html "dist/$name/"
           cp -r man "dist/$name/man"
           cd dist
           if [ "${{ runner.os }}" = "Windows" ]; then
-            cp "../target/${{ matrix.target }}/release/ebs-wees-bill.exe" "$name/"
+            cp "../target/${{ matrix.target }}/release/ebs-orphan-bill.exe" "$name/"
             7z a -tzip "$name.zip" "$name" > /dev/null
             sha256sum "$name.zip" > "$name.zip.sha256"
           else
-            cp "../target/${{ matrix.target }}/release/ebs-wees-bill" "$name/"
+            cp "../target/${{ matrix.target }}/release/ebs-orphan-bill" "$name/"
             tar -czf "$name.tar.gz" "$name"
             shasum -a 256 "$name.tar.gz" > "$name.tar.gz.sha256"
           fi
@@ -98,16 +98,16 @@ jobs:
       - name: Smoke test the archive
         shell: bash
         run: |
-          name="ebs-wees-bill-${TAG}-${{ matrix.target }}"
-          expected="ebs-wees-bill ${TAG#v}"
+          name="ebs-orphan-bill-${TAG}-${{ matrix.target }}"
+          expected="ebs-orphan-bill ${TAG#v}"
           mkdir smoke
           cd smoke
           if [ "${{ runner.os }}" = "Windows" ]; then
             7z x "../dist/$name.zip" > /dev/null
-            bin="./ebs-wees-bill.exe"
+            bin="./ebs-orphan-bill.exe"
           else
             tar -xzf "../dist/$name.tar.gz"
-            bin="./ebs-wees-bill"
+            bin="./ebs-orphan-bill"
           fi
           cd "$name"
           test -f THIRD-PARTY-LICENSES.html
@@ -143,5 +143,5 @@ jobs:
           if gh release view "$TAG" > /dev/null 2>&1; then
             gh release upload "$TAG" ./*
           else
-            gh release create "$TAG" --title "ebs-wees-bill $TAG" --generate-notes --verify-tag ./*
+            gh release create "$TAG" --title "ebs-orphan-bill $TAG" --generate-notes --verify-tag ./*
           fi

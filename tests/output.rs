@@ -11,7 +11,7 @@ const SAMPLES: [&str; 3] = [
 ];
 
 fn run(extra: &[&str]) -> Output {
-    Command::new(env!("CARGO_BIN_EXE_ebs-wees-bill"))
+    Command::new(env!("CARGO_BIN_EXE_ebs-orphan-bill"))
         .current_dir(env!("CARGO_MANIFEST_DIR"))
         .args(["--as-of", "2026-11-09"])
         .args(extra)
@@ -29,7 +29,7 @@ struct Scratch(PathBuf);
 impl Scratch {
     fn new(label: &str) -> Self {
         let path = std::env::temp_dir().join(format!(
-            "ebs-wees-bill-out-{label}-{}-{}",
+            "ebs-orphan-bill-out-{label}-{}-{}",
             std::process::id(),
             std::time::SystemTime::now()
                 .duration_since(std::time::UNIX_EPOCH)

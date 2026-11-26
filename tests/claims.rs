@@ -1,4 +1,4 @@
-use ebs_wees_bill::{
+use ebs_orphan_bill::{
     format_usd, free_tier_line, io2_iops_usd, io2_line, kind_of, not_applied_line, quote_snapshot,
     quote_volume, throughput_line, VolumeKind,
 };
@@ -88,7 +88,7 @@ fn readme_and_price_file_cite_the_page() {
 fn throughput_identity_and_the_example_rate_are_separated() {
     let per_mib = dec("40.96") / Decimal::from(1024);
     assert_eq!(per_mib, dec("0.04"));
-    let prices = ebs_wees_bill::prices_builtin();
+    let prices = ebs_orphan_bill::prices_builtin();
     assert_eq!(prices.gp3_throughput_per_mib_month, per_mib);
     let bill = include_str!("../src/bill.rs");
     assert!(!bill.contains("0.06"));
@@ -101,7 +101,7 @@ fn throughput_identity_and_the_example_rate_are_separated() {
 
 #[test]
 fn page_full_months_match_the_readme() {
-    let prices = ebs_wees_bill::prices_builtin();
+    let prices = ebs_orphan_bill::prices_builtin();
     let gp3 = quote_volume(VolumeKind::Gp3, 2000, Some(10_000), Some(500), &prices).unwrap();
     assert_eq!(format_usd(gp3.usd_month.unwrap()), "210.00");
     assert_eq!(
@@ -186,7 +186,7 @@ fn page_full_months_match_the_readme() {
 
 #[test]
 fn readme_prints_the_builtin_note_lines() {
-    let prices = ebs_wees_bill::prices_builtin();
+    let prices = ebs_orphan_bill::prices_builtin();
     let text = readme();
     assert!(text.contains(&free_tier_line(&prices)));
     assert!(text.contains(&not_applied_line(&prices)));
@@ -232,7 +232,7 @@ fn changelog_licenses_and_manifest() {
     assert!(manifest.contains("license = \"MIT OR Apache-2.0\""));
     assert!(manifest.contains("clap"));
     assert!(manifest.contains("rust-version = \"1.85\""));
-    assert!(manifest.contains("name = \"ebs-wees-bill\""));
+    assert!(manifest.contains("name = \"ebs-orphan-bill\""));
     assert!(manifest.contains("version = \"1.0.0\""));
     assert!(!manifest.contains("aws-sdk"));
     assert!(!manifest.contains("reqwest"));

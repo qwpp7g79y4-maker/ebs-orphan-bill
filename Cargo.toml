@@ -1,5 +1,5 @@
 [package]
-name = "ebs-wees-bill"
+name = "ebs-orphan-bill"
 version = "1.0.0"
 edition = "2021"
 rust-version = "1.85"
@@ -7,18 +7,18 @@ authors = ["PEPAI <pep_ai@icloud.com>"]
 license = "MIT OR Apache-2.0"
 description = "Offline EBS orphan cost from describe-volumes and describe-snapshots JSON"
 readme = "README.md"
-repository = "https://github.com/qwpp7g79y4-maker/ebs-wees-bill"
+repository = "https://github.com/qwpp7g79y4-maker/ebs-orphan-bill"
 homepage = "https://www.pepai.nl"
-documentation = "https://github.com/qwpp7g79y4-maker/ebs-wees-bill"
+documentation = "https://github.com/qwpp7g79y4-maker/ebs-orphan-bill"
 keywords = ["aws", "ebs", "cost", "cli"]
 categories = ["command-line-utilities", "development-tools"]
 
 [lib]
-name = "ebs_wees_bill"
+name = "ebs_orphan_bill"
 path = "src/lib.rs"
 
 [[bin]]
-name = "ebs-wees-bill"
+name = "ebs-orphan-bill"
 path = "src/main.rs"
 
 [dependencies]

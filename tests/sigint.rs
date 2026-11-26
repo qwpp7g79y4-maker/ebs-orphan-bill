@@ -8,7 +8,7 @@ use std::process::{Command, Stdio};
 
 #[test]
 fn sigint_while_reading_stdin_exits_130_with_empty_stdout() {
-    let mut child = Command::new(env!("CARGO_BIN_EXE_ebs-wees-bill"))
+    let mut child = Command::new(env!("CARGO_BIN_EXE_ebs-orphan-bill"))
         .current_dir(env!("CARGO_MANIFEST_DIR"))
         .args(["--verbose", "-"])
         .stdin(Stdio::piped())
@@ -39,16 +39,16 @@ fn sigint_while_reading_stdin_exits_130_with_empty_stdout() {
     let status = child.wait().expect("wait");
     assert_eq!(status.code(), Some(130), "{rest}");
     assert!(stdout.is_empty(), "{stdout}");
-    assert_eq!(rest, "ebs-wees-bill: interrupted by SIGINT\n");
+    assert_eq!(rest, "ebs-orphan-bill: interrupted by SIGINT\n");
 }
 
 #[test]
 fn sigint_keeps_an_existing_output_file_whole() {
-    let dir = std::env::temp_dir().join(format!("ebs-wees-bill-sigint-{}", std::process::id()));
+    let dir = std::env::temp_dir().join(format!("ebs-orphan-bill-sigint-{}", std::process::id()));
     std::fs::create_dir_all(&dir).expect("dir");
     let target = dir.join("report.out");
     std::fs::write(&target, "previous report").expect("write");
-    let mut child = Command::new(env!("CARGO_BIN_EXE_ebs-wees-bill"))
+    let mut child = Command::new(env!("CARGO_BIN_EXE_ebs-orphan-bill"))
         .current_dir(env!("CARGO_MANIFEST_DIR"))
         .args(["--verbose", "--output", target.to_str().expect("utf8"), "-"])
         .stdin(Stdio::piped())

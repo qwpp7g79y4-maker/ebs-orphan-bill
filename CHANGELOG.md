@@ -24,6 +24,7 @@ Changes made after 2026-11-19; the version number did not change.
 
 ### Changed
 
+- The crate, the binary, and the repository are named `ebs-orphan-bill`.
 - The monthly cost is labelled as an estimate. The text totals are `estimated_usd_month=21.50`, `volume estimated_usd_month=...` and `snapshot estimated_usd_month=...`, one line says the figure is an estimate from list prices and not the invoice, and the JSON has `"estimate": true` and `estimate_note`. The JSON totals `usd_month`, `volume_usd_month`, and `snapshot_usd_month` are now `estimated_usd_month`, `volume_estimated_usd_month`, and `snapshot_estimated_usd_month`. The per-row `usd_month` is unchanged.
 
 
@@ -36,7 +37,7 @@ Changes made after 2026-11-19; the version number did not change.
 - Tests for an exact product and sum, for the `--fail-usd` length and zero rules, for `VolumeType` case, and for control characters in the price `source`.
 - Tests for the 256 MiB input limit (a file, standard input, and gzip, each at the limit and one byte over it), for a symlink named on the command line, and for the split of warnings between standard error and the JSON object.
 - The library also exports `escape_hidden`, `is_hidden`, and `loses_digits`.
-- `man/ebs-wees-bill.1`, a man page that holds the `--help` text and the same long options. `tests/handbook_help.rs` checks that.
+- `man/ebs-orphan-bill.1`, a man page that holds the `--help` text and the same long options. `tests/handbook_help.rs` checks that.
 - `tests/docs_clean.rs` (22 patterns) fails when `README.md`, `QUALITY.md`, `CHANGELOG.md`, `SECURITY.md`, or `man/` holds a local absolute path, a wrapper option, the name of a working-notes file, an internal tool name, or the name of an AI system. A second test scans the manifest, the workflow files, `scripts/`, `src/`, `tests/`, `examples/`, and `prices/` for the same words. The test source writes the words in pieces, so it does not hold them.
 - `scripts/check-glibc.sh` and a CI job `glibc` (Ubuntu 22.04) that fails when the release binary needs a glibc symbol newer than 2.34.
 - Tests for the limit on JSON values (`a_document_with_too_many_json_values_is_refused`, a unit test of the count) and for a single object with a `VolumeId` and an `ImageId`.
@@ -51,7 +52,7 @@ Changes made after 2026-11-19; the version number did not change.
 - A row and the report total are the exact sum of the unrounded products, rounded once, half away from zero. `--fail-usd` compares that exact amount. `Decimal` used to round a product that needs more than 28 digits, without a message: a size of 18446744073709551615 GB at a rate of 123456789.41249 showed `...180.70` instead of `...180.67`, and two volumes at a rate of 500000000000000000000000000.01 showed a total of `1000000000000000000000000000.00`. Such a run exits 2 with `amount overflowed` when the exact amount does not fit in the accumulator, or when the once-rounded cent amount does not fit in a decimal. A sum of already rounded products used to land on the wrong cent: two volumes of 1000000000000003 GB at a rate of 20.05736282578990000041152263 showed `40114725651579920.35` and now show `40114725651579920.34`. 1001 GB at a rate of 0.4106043956043956043956043956 (exactly 411.0149999999999999999999999956) used to show 411.02 and then to exit 2; it now shows 411.01. GB from a size in bytes is rounded once, half away from zero. This changes the output for a size in bytes whose exact GB value ends in a tie at the 28th decimal: `Decimal` division used to round such a tie to the even digit, so 2 bytes showed 0.0000000018626451492309570312 and now shows 0.0000000018626451492309570313, and 10 bytes showed 0.0000000093132257461547851562 and now shows 0.0000000093132257461547851563. 1 byte is not a tie and still shows 0.0000000009313225746154785156. Monthly amounts in the library are an exact `Amount`; `format_usd` rounds one.
 - `--help` says that exit 2 also covers a standard output that cannot be written. The man page holds the same text.
 - Version 1.0.0. The price file and the prices are the same as 0.1.0. The input and output checks below changed.
-- A closed standard output (`>&-`) and a full one (`>/dev/full`) exit 2 with `ebs-wees-bill: could not write output`. `--help` and `--version` are written the same way, so they exit 2 on a closed or full standard output. `>/dev/null` and `1<>/dev/null` still exit 0. A closed standard output is recognised on Linux only (`src/stdout_probe.rs`).
+- A closed standard output (`>&-`) and a full one (`>/dev/full`) exit 2 with `ebs-orphan-bill: could not write output`. `--help` and `--version` are written the same way, so they exit 2 on a closed or full standard output. `>/dev/null` and `1<>/dev/null` still exit 0. A closed standard output is recognised on Linux only (`src/stdout_probe.rs`).
 - `--as-of` must be 1970-01-01 through 2199-12-31, or the command exits 2.
 - `--fail-usd` with more than 28 decimals exits 2. A rate in a `--prices` file with more than 28 decimals is an error ("does not fit"). The same holds for an amount or a rate with more digits than a decimal holds exactly: `--fail-usd 1844674407370955161.49999999999` used to be rounded to `1844674407370955161.5`, so a row of exactly that amount passed, and now exits 2. Leading and trailing zeros do not count, and the largest rate, 79228162514264337593543950335, still works.
 - Only space, tab, CR, and LF are trimmed around numbers, `VolumeType`, `StorageTier`, and `State`, and in price strings. A no-break space, U+2028, or U+3000 is not trimmed, so such a value is rejected or not recognised. A file that holds only Unicode whitespace is not an empty file and is an error.
@@ -71,7 +72,7 @@ This version is not published and has no git tag.
 
 ### Added
 
-- `ebs-wees-bill` reads local `aws ec2 describe-volumes`, `describe-snapshots`, and `describe-images` JSON and prices loose volumes and snapshots older than N days that no AMI references.
+- `ebs-orphan-bill` reads local `aws ec2 describe-volumes`, `describe-snapshots`, and `describe-images` JSON and prices loose volumes and snapshots older than N days that no AMI references.
 - Built-in US East (N. Virginia) rates from <https://aws.amazon.com/ebs/pricing/>, read on 2026-11-09. The page price file was published 2026-11-07. gp3 storage is 0.08 USD per GB-month, gp2 is 0.10, io1 and io2 storage are 0.125, io1 IOPS and io2 tier 1 are 0.065, io2 tier 2 is 0.0455, io2 tier 3 is 0.03185, st1 is 0.045, sc1 is 0.015, and standard snapshots are 0.05. gp3 throughput is 0.04 USD per MB/s-month, the 40.96 USD per GiBps-month meter divided by 1024.
 - Magnetic standard volumes (0.05), snapshot archive storage (0.0125) and retrieval (0.03), and the account free tier are recorded and not applied.
 - Text table and `--json`. `--fail-usd` exits 1 when a priced orphan's exact monthly USD is strictly greater. The report does not delete volumes or snapshots.

@@ -10,26 +10,26 @@ mod interrupt;
 #[allow(unsafe_code)]
 mod stdout_probe;
 
-use ebs_wees_bill::{
+use ebs_orphan_bill::{
     escape_hidden, execute_paths, is_hidden, load_prices_str, shown_path, Error, Options,
 };
 
 /// The crate version. A debug build made in a git checkout adds the short commit.
-#[cfg(ebs_wees_bill_git_sha)]
+#[cfg(ebs_orphan_bill_git_sha)]
 const VERSION: &str = concat!(
     env!("CARGO_PKG_VERSION"),
     " (",
-    env!("EBS_WEES_BILL_GIT_SHA"),
+    env!("EBS_ORPHAN_BILL_GIT_SHA"),
     ")"
 );
-#[cfg(not(ebs_wees_bill_git_sha))]
+#[cfg(not(ebs_orphan_bill_git_sha))]
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 
 /// Find loose EBS volumes and old snapshots without an AMI, and their monthly cost. Reads files only, no network.
 #[derive(Parser)]
 #[command(
-    name = "ebs-wees-bill",
-    bin_name = "ebs-wees-bill",
+    name = "ebs-orphan-bill",
+    bin_name = "ebs-orphan-bill",
     version = VERSION,
     about = "Find loose EBS volumes and old snapshots without an AMI, and their monthly cost. Reads files only, no network.",
     after_help = "Exit codes: 0 ok, 1 a priced orphan costs more than --fail-usd, 2 input or usage error, or standard output that cannot be written."
@@ -115,7 +115,7 @@ fn main() -> ExitCode {
                 if let Err(err) = write_file_atomic(path, output.stdout.as_bytes()) {
                     let _ = writeln!(
                         std::io::stderr(),
-                        "ebs-wees-bill: cannot write {}: {err}",
+                        "ebs-orphan-bill: cannot write {}: {err}",
                         shown_path(path)
                     );
                     return ExitCode::from(2);
@@ -134,7 +134,7 @@ fn main() -> ExitCode {
             }
         }
         Err(err) => {
-            let _ = writeln!(std::io::stderr(), "ebs-wees-bill: {err}");
+            let _ = writeln!(std::io::stderr(), "ebs-orphan-bill: {err}");
             ExitCode::from(2)
         }
     }
@@ -199,7 +199,7 @@ fn write_stdout(text: &str) -> bool {
     let written = stdout_is_open() && out.write_all(text.as_bytes()).is_ok() && out.flush().is_ok();
     interrupt::set_writing(false);
     if !written {
-        let _ = writeln!(std::io::stderr(), "ebs-wees-bill: could not write output");
+        let _ = writeln!(std::io::stderr(), "ebs-orphan-bill: could not write output");
         return false;
     }
     true
@@ -219,7 +219,7 @@ fn stdout_is_open() -> bool {
 /// arguments parse (clap refused the real ones, for example for a value that is
 /// not UTF-8), the message of the real error is used; it echoes no argument.
 fn safe_usage_text(args: &[String], real: &clap::Error) -> String {
-    let escaped: Vec<String> = std::iter::once("ebs-wees-bill".to_string())
+    let escaped: Vec<String> = std::iter::once("ebs-orphan-bill".to_string())
         .chain(args.iter().map(|arg| escape_hidden(arg)))
         .collect();
     let text = match Cli::try_parse_from(escaped) {
@@ -237,13 +237,13 @@ fn safe_usage_text(args: &[String], real: &clap::Error) -> String {
         .collect()
 }
 
-fn run(cli: &Cli) -> Result<ebs_wees_bill::Output, Error> {
+fn run(cli: &Cli) -> Result<ebs_orphan_bill::Output, Error> {
     let prices = if let Some(path) = &cli.prices {
         let text = read_price_file(path)?;
         load_prices_str(&text)
             .map_err(|err| Error::new(format!("price file {}: {err}", shown_path(path))))?
     } else {
-        ebs_wees_bill::prices_builtin()
+        ebs_orphan_bill::prices_builtin()
     };
     let fail_usd = match &cli.fail_usd {
         Some(text) => Some(parse_fail(text)?),
@@ -278,7 +278,7 @@ fn read_price_file(path: &std::path::Path) -> Result<String, Error> {
         return Err(Error::new(format!("{}: not a file", shown_path(path))));
     }
     let len = meta.len();
-    if len > ebs_wees_bill::MAX_FILE_BYTES {
+    if len > ebs_orphan_bill::MAX_FILE_BYTES {
         return Err(Error::new(format!(
             "{}: file is larger than 268435456 bytes",
             shown_path(path)
@@ -314,7 +314,7 @@ fn parse_fail(text: &str) -> Result<Decimal, Error> {
         return Err(Error::new("--fail-usd does not fit: more than 28 decimals"));
     }
     let value: Decimal = text.parse().map_err(|_| Error::new("invalid --fail-usd"))?;
-    if ebs_wees_bill::loses_digits(text) {
+    if ebs_orphan_bill::loses_digits(text) {
         return Err(Error::new(
             "--fail-usd does not fit: more digits than a decimal holds exactly",
         ));

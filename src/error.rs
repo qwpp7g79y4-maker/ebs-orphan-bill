@@ -15,7 +15,7 @@ impl Error {
         }
     }
 
-    /// Text without the `ebs-wees-bill:` prefix.
+    /// Text without the `ebs-orphan-bill:` prefix.
     #[must_use]
     pub fn message(&self) -> &str {
         &self.message

@@ -11,7 +11,7 @@ const SAMPLES: [&str; 3] = [
 ];
 
 fn run(extra: &[&str]) -> (i32, String, String) {
-    let output = Command::new(env!("CARGO_BIN_EXE_ebs-wees-bill"))
+    let output = Command::new(env!("CARGO_BIN_EXE_ebs-orphan-bill"))
         .current_dir(env!("CARGO_MANIFEST_DIR"))
         .args(["--as-of", "2026-11-09"])
         .args(extra)
@@ -28,7 +28,7 @@ fn run(extra: &[&str]) -> (i32, String, String) {
 
 #[test]
 fn help_lists_quiet_and_verbose() {
-    let output = Command::new(env!("CARGO_BIN_EXE_ebs-wees-bill"))
+    let output = Command::new(env!("CARGO_BIN_EXE_ebs-orphan-bill"))
         .arg("--help")
         .output()
         .expect("run binary");

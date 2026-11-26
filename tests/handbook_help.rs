@@ -1,6 +1,6 @@
-//! Handbook check against the built `ebs-wees-bill` binary.
+//! Handbook check against the built `ebs-orphan-bill` binary.
 //!
-//! `--help` is the usage text. `man/ebs-wees-bill.1` must contain it verbatim,
+//! `--help` is the usage text. `man/ebs-orphan-bill.1` must contain it verbatim,
 //! its long options must be exactly those in `--help`, and it must have
 //! the standard sections.
 
@@ -37,13 +37,13 @@ fn long_options(text: &str) -> BTreeSet<String> {
 
 #[test]
 fn help_long_options_match_the_man_page_and_unknown_option_is_not_a_panic() {
-    let bin = env!("CARGO_BIN_EXE_ebs-wees-bill");
+    let bin = env!("CARGO_BIN_EXE_ebs-orphan-bill");
     let output = Command::new(bin).arg("--help").output().unwrap();
     assert_eq!(output.status.code(), Some(0), "stderr: {:?}", output.stderr);
     let help = String::from_utf8(output.stdout).unwrap();
     assert!(!help.is_empty(), "--help stdout is empty");
 
-    let path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("man/ebs-wees-bill.1");
+    let path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("man/ebs-orphan-bill.1");
     let man = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("read man page: {e}"));
     for section in [
         "NAME",
@@ -68,7 +68,7 @@ fn help_long_options_match_the_man_page_and_unknown_option_is_not_a_panic() {
     assert!(!from_help.is_empty(), "help text has no long options");
     assert_eq!(
         from_man, from_help,
-        "long options in man/ebs-wees-bill.1 must be exactly those in --help"
+        "long options in man/ebs-orphan-bill.1 must be exactly those in --help"
     );
 
     let options_section = man

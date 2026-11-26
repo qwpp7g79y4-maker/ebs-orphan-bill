@@ -13,7 +13,7 @@ use std::sync::atomic::AtomicPtr;
 use std::sync::atomic::{AtomicBool, Ordering};
 
 pub const EXIT_SIGINT: u8 = 130;
-pub const MESSAGE: &str = "ebs-wees-bill: interrupted by SIGINT\n";
+pub const MESSAGE: &str = "ebs-orphan-bill: interrupted by SIGINT\n";
 
 static WRITING: AtomicBool = AtomicBool::new(false);
 static PENDING: AtomicBool = AtomicBool::new(false);

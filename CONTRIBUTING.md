@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for your interest in ebs-wees-bill.
+Thanks for your interest in ebs-orphan-bill.
 
 ## Building and testing
 

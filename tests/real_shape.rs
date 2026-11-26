@@ -14,7 +14,7 @@ const SNAPSHOTS: &str = "tests/fixtures/describe-snapshots.json";
 const IMAGES: &str = "tests/fixtures/describe-images.json";
 
 fn run(args: &[&str]) -> Output {
-    Command::new(env!("CARGO_BIN_EXE_ebs-wees-bill"))
+    Command::new(env!("CARGO_BIN_EXE_ebs-orphan-bill"))
         .args(args)
         .current_dir(env!("CARGO_MANIFEST_DIR"))
         .output()
@@ -110,7 +110,7 @@ fn empty_lists_are_a_zero_report() {
         ("snapshots", r#"{"Snapshots": []}"#),
         ("images", r#"{"Images": []}"#),
     ] {
-        let mut child = Command::new(env!("CARGO_BIN_EXE_ebs-wees-bill"))
+        let mut child = Command::new(env!("CARGO_BIN_EXE_ebs-orphan-bill"))
             .args(["--json", "-"])
             .current_dir(env!("CARGO_MANIFEST_DIR"))
             .stdin(std::process::Stdio::piped())

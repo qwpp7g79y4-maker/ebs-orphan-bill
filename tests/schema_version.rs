@@ -5,7 +5,7 @@ use std::io::Write;
 use std::process::{Command, Stdio};
 
 fn run(args: &[&str], stdin: &[u8]) -> (i32, String) {
-    let mut child = Command::new(env!("CARGO_BIN_EXE_ebs-wees-bill"))
+    let mut child = Command::new(env!("CARGO_BIN_EXE_ebs-orphan-bill"))
         .current_dir(env!("CARGO_MANIFEST_DIR"))
         .args(args)
         .stdin(Stdio::piped())

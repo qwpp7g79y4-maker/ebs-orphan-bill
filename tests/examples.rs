@@ -5,7 +5,7 @@ use std::process::Command;
 
 #[test]
 fn the_example_command_prints_exactly_the_expected_report() {
-    let out = Command::new(env!("CARGO_BIN_EXE_ebs-wees-bill"))
+    let out = Command::new(env!("CARGO_BIN_EXE_ebs-orphan-bill"))
         .current_dir(env!("CARGO_MANIFEST_DIR"))
         .args([
             "--as-of",
@@ -61,7 +61,7 @@ fn the_release_workflow_builds_this_binary_from_a_tag_after_ci() {
         "tags: [\"v*\"]",
         "uses: ./.github/workflows/ci.yml",
         "cargo about generate --locked about.hbs",
-        "ebs-wees-bill-${TAG}-${{ matrix.target }}",
+        "ebs-orphan-bill-${TAG}-${{ matrix.target }}",
         "check-glibc.sh",
         "THIRD-PARTY-LICENSES.html",
         "needs: [ci, build]",

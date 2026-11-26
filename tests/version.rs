@@ -7,14 +7,14 @@ use std::process::Command;
 
 #[test]
 fn version_is_the_crate_version_with_the_commit_only_in_a_debug_checkout() {
-    let out = Command::new(env!("CARGO_BIN_EXE_ebs-wees-bill"))
+    let out = Command::new(env!("CARGO_BIN_EXE_ebs-orphan-bill"))
         .arg("--version")
         .output()
         .expect("run binary");
     assert_eq!(out.status.code(), Some(0));
     let text = String::from_utf8(out.stdout).expect("utf-8");
     let line = text.trim_end();
-    let base = format!("ebs-wees-bill {}", env!("CARGO_PKG_VERSION"));
+    let base = format!("ebs-orphan-bill {}", env!("CARGO_PKG_VERSION"));
     assert!(line.starts_with(&base), "{line}");
     let rest = &line[base.len()..];
     let in_checkout = Path::new(env!("CARGO_MANIFEST_DIR")).join(".git").exists();

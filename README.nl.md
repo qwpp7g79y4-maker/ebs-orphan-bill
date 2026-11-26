@@ -1,6 +1,6 @@
-# ebs-wees-bill
+# ebs-orphan-bill
 
-[![crates.io](https://img.shields.io/crates/v/ebs-wees-bill.svg)](https://crates.io/crates/ebs-wees-bill) [![downloads](https://img.shields.io/crates/d/ebs-wees-bill.svg)](https://crates.io/crates/ebs-wees-bill) [![CI](https://github.com/qwpp7g79y4-maker/ebs-wees-bill/actions/workflows/ci.yml/badge.svg)](https://github.com/qwpp7g79y4-maker/ebs-wees-bill/actions/workflows/ci.yml) [![PEPAI checked](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fqwpp7g79y4-maker%2Febs-wees-bill%2Fmain%2F.github%2Fbadge.json)](QUALITY.md) [![MSRV 1.85](https://img.shields.io/badge/MSRV-1.85-blue.svg)](https://github.com/qwpp7g79y4-maker/ebs-wees-bill/blob/main/Cargo.toml) [![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](https://github.com/qwpp7g79y4-maker/ebs-wees-bill#license)
+[![crates.io](https://img.shields.io/crates/v/ebs-orphan-bill.svg)](https://crates.io/crates/ebs-orphan-bill) [![downloads](https://img.shields.io/crates/d/ebs-orphan-bill.svg)](https://crates.io/crates/ebs-orphan-bill) [![CI](https://github.com/qwpp7g79y4-maker/ebs-orphan-bill/actions/workflows/ci.yml/badge.svg)](https://github.com/qwpp7g79y4-maker/ebs-orphan-bill/actions/workflows/ci.yml) [![PEPAI checked](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fqwpp7g79y4-maker%2Febs-orphan-bill%2Fmain%2F.github%2Fbadge.json)](QUALITY.md) [![MSRV 1.85](https://img.shields.io/badge/MSRV-1.85-blue.svg)](https://github.com/qwpp7g79y4-maker/ebs-orphan-bill/blob/main/Cargo.toml) [![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](https://github.com/qwpp7g79y4-maker/ebs-orphan-bill#license)
 
 Vind losse EBS-volumes en snapshots die ouder zijn dan N dagen en geen AMI hebben, met de maandkosten van elk. Leest alleen bestanden. Geen netwerk.
 
@@ -8,7 +8,7 @@ Dit is de Nederlandse versie van `README.md`; de Engelse tekst is leidend.
 
 ## Waarom
 
-Een losgekoppeld volume en een snapshot die geen image gebruikt blijven kosten, ook als de instance weg is. `ebs-wees-bill` leest JSON die je al hebt opgeslagen van `aws ec2 describe-volumes`, `aws ec2 describe-snapshots` en `aws ec2 describe-images`. Het toont de losse volumes en de oude standaardsnapshots, met een maandbedrag in USD voor elke geprijsde regel.
+Een losgekoppeld volume en een snapshot die geen image gebruikt blijven kosten, ook als de instance weg is. `ebs-orphan-bill` leest JSON die je al hebt opgeslagen van `aws ec2 describe-volumes`, `aws ec2 describe-snapshots` en `aws ec2 describe-images`. Het toont de losse volumes en de oude standaardsnapshots, met een maandbedrag in USD voor elke geprijsde regel.
 
 Het rapport vindt wezen en maandkosten. Het verwijdert geen volumes of snapshots. Het bedrag is een schatting uit lijstprijzen, niet uit je factuur.
 
@@ -22,10 +22,10 @@ Bouw vanuit de broncode. Rust 1.85 of nieuwer. Vanuit een kloon van deze crate:
 
 ```sh
 cargo install --locked --path .
-ebs-wees-bill --help
+ebs-orphan-bill --help
 ```
 
-De binary heet `ebs-wees-bill`. Versie 1.0.0 is niet gepubliceerd en heeft geen git-tag. Er is geen download: bouw vanuit de broncode. Een binary die op Linux is gebouwd heeft de glibc nodig van de machine die hem bouwde; de releasebuild voor deze pagina had glibc 2.34 nodig, en een CI-taak faalt als het hoogste glibc-symbool van een releasebuild nieuwer is. Andere libc-builds (bijvoorbeeld musl) en de oudste werkende macOS- of Windows-versie zijn niet gemeten. macOS- en Windows-builds worden alleen door compileren gecontroleerd (zie `QUALITY.md`).
+De binary heet `ebs-orphan-bill`. Versie 1.0.0 is niet gepubliceerd en heeft geen git-tag. Er is geen download: bouw vanuit de broncode. Een binary die op Linux is gebouwd heeft de glibc nodig van de machine die hem bouwde; de releasebuild voor deze pagina had glibc 2.34 nodig, en een CI-taak faalt als het hoogste glibc-symbool van een releasebuild nieuwer is. Andere libc-builds (bijvoorbeeld musl) en de oudste werkende macOS- of Windows-versie zijn niet gemeten. macOS- en Windows-builds worden alleen door compileren gecontroleerd (zie `QUALITY.md`).
 
 ## Snelstart
 
@@ -33,7 +33,7 @@ De voorbeeldbestanden zijn `examples/volumes.json`, `examples/snapshots.json` en
 
 <!-- quick-start:start -->
 ```console
-$ ebs-wees-bill --as-of 2026-11-09 --older-than-days 30 examples/volumes.json examples/snapshots.json examples/images.json
+$ ebs-orphan-bill --as-of 2026-11-09 --older-than-days 30 examples/volumes.json examples/snapshots.json examples/images.json
 warning: examples/snapshots.json: page may be partial; nextToken was not followed
 warning: vol-44444444444444444: volume type standard is not priced
 warning: snap-44444444444444444: snapshot tier archive is not priced
@@ -69,16 +69,16 @@ note: this report identifies orphans and monthly cost. It does not delete volume
 
 ## Aan de slag in 5 minuten
 
-1. Bouw de tool: `cargo install --locked --path .` (Rust 1.85 of nieuwer). Controleer met `ebs-wees-bill --version`.
+1. Bouw de tool: `cargo install --locked --path .` (Rust 1.85 of nieuwer). Controleer met `ebs-orphan-bill --version`.
 2. Sla je eigen exports op (het commando leest alleen bestanden en roept AWS nooit aan): `aws ec2 describe-volumes > volumes.json`, `aws ec2 describe-snapshots --owner-ids self > snapshots.json` en `aws ec2 describe-images --owners self > images.json`.
-3. Draai `ebs-wees-bill --as-of "$(date -u +%F)" volumes.json snapshots.json images.json`. Zonder `--as-of` worden de volumes geprijsd en de snapshots niet beoordeeld.
+3. Draai `ebs-orphan-bill --as-of "$(date -u +%F)" volumes.json snapshots.json images.json`. Zonder `--as-of` worden de volumes geprijsd en de snapshots niet beoordeeld.
 4. Lees de laatste regels: `estimated_usd_month=` is de schatting voor de losse volumes en oude snapshots, uit lijstprijzen en niet uit je factuur.
 5. Gebruik het in een script: `--fail-usd 50` geeft exit 1 als één wees meer dan 50 USD per maand kost, `--json` en `--md` veranderen het formaat en `--output rapport.md` schrijft een bestand.
 
 ## Opties
 
 ```text
-ebs-wees-bill [OPTIES] <BESTAND>...
+ebs-orphan-bill [OPTIES] <BESTAND>...
 
   <BESTAND>...              describe-volumes-, describe-snapshots- of describe-images-JSON: bestanden, gzip, mappen, of - voor standaardinvoer
   --prices <BESTAND>        Prijsbestand. Standaard de ingebouwde US East (N. Virginia) EBS-lijst
@@ -94,7 +94,7 @@ ebs-wees-bill [OPTIES] <BESTAND>...
   -V, --version             Toon de versie
 ```
 
-`--version` toont de crateversie. Een debugbuild uit een git-kloon toont ook de commit, als `ebs-wees-bill 1.0.0 (<sha van 40 tekens>)`; een releasebuild, of een uitgepakt pakket zonder git, toont alleen de versie. `--help` en `man/ebs-wees-bill.1` bevatten de volledige (Engelse) tekst. De opmerkingen onder "Hoe het telt" leggen elke optie uitgebreider uit.
+`--version` toont de crateversie. Een debugbuild uit een git-kloon toont ook de commit, als `ebs-orphan-bill 1.0.0 (<sha van 40 tekens>)`; een releasebuild, of een uitgepakt pakket zonder git, toont alleen de versie. `--help` en `man/ebs-orphan-bill.1` bevatten de volledige (Engelse) tekst. De opmerkingen onder "Hoe het telt" leggen elke optie uitgebreider uit.
 
 ## Voorbeeld
 
@@ -117,8 +117,8 @@ ebs-wees-bill [OPTIES] <BESTAND>...
 De geprijsde volumewezen tellen op tot `16.00 + 5.00 = 21.00`. Het totaal van de geprijsde snapshots is 0.50. Het eindtotaal is 21.50 USD per maand, getoond als `estimated_usd_month=21.50`. Elk rapport zegt dat het een schatting is uit lijstprijzen: de tekst heeft één regel `Estimate from list prices, not your AWS invoice (free tier, credits, discounts not included)` en de JSON heeft `"estimate": true` op het hoogste niveau (met dezelfde zin in `estimate_note`). De totalen heten in JSON `estimated_usd_month`, `volume_estimated_usd_month` en `snapshot_estimated_usd_month`.
 
 ```sh
-ebs-wees-bill --as-of 2026-11-09 --fail-usd 16 examples/volumes.json examples/snapshots.json examples/images.json
-ebs-wees-bill --as-of 2026-11-09 --fail-usd 15.99 --json examples/volumes.json examples/snapshots.json examples/images.json
+ebs-orphan-bill --as-of 2026-11-09 --fail-usd 16 examples/volumes.json examples/snapshots.json examples/images.json
+ebs-orphan-bill --as-of 2026-11-09 --fail-usd 15.99 --json examples/volumes.json examples/snapshots.json examples/images.json
 ```
 
 `--fail-usd 16` raakt de gp3-regel, dus dat commando geeft exit 0. `--fail-usd 15.99` geeft exit 1. Een gekoppeld volume, een jonge snapshot, een AMI-snapshot, een archiefsnapshot en een ongeprijsd magnetisch volume halen de drempel niet. `--json` toont één JSON-object op standaarduitvoer. Waarschuwingen gaan in JSON-modus naar standaardfout en staan ook in de `warnings`-lijst van het object. De tekstmodus toont waarschuwingen op standaarduitvoer.
@@ -155,7 +155,7 @@ Tarieven zijn de rijen US East (N. Virginia) op <https://aws.amazon.com/ebs/pric
 - **Drempel.** `--fail-usd BEDRAG` geeft exit 1 als een geprijsde wees strikt meer kost dan `BEDRAG`. Gelijk faalt niet. `BEDRAG` is gewone cijfers met een optionele fractie, zonder teken of exponent, met hoogstens 28 decimalen en niet meer cijfers dan een decimal exact houdt (het grootste is 79228162514264337593543950335), anders exit 2. De tekst is hoogstens 40 tekens; decimalen tellen met hun nullen.
 - **Uitvoerbestand.** `--output BESTAND` schrijft het rapport (tekst, `--json` of `--md`) naar een tijdelijk bestand in dezelfde map en hernoemt dat over `BESTAND`: het bestand is het oude of het hele nieuwe. Een bestaand gewoon bestand wordt vervangen. Een symlink wordt geweigerd en niet gevolgd, net als een map of een ander bestand dat niet gewoon is. Een ontbrekende bovenliggende map wordt niet aangemaakt. Een schrijffout geeft exit 2.
 - **Markdown.** `--md` toont een kop, de schattingsregel, de notities als lijst, een lijst `## Warnings` (niet met `--quiet`), een tabel voor volumes en een voor snapshots, en de totalen als `estimated_usd_month=21.50`. De bedragen zijn dezelfde teksten als in tekst en JSON. Een `|` in een cel wordt `\|`; regeleinden en verborgen tekens worden `\u{..}`-escapes. `--md` met `--json` is een gebruiksfout (exit 2).
-- **SIGINT.** Op Unix beëindigt Ctrl-C (SIGINT) het commando met exit 130 en de regel `ebs-wees-bill: interrupted by SIGINT` op standaardfout. Vóór het schrijven van het rapport is er niets naar standaarduitvoer gegaan; een SIGINT tijdens dat ene schrijven laat het schrijven afmaken en geeft dan exit 130. Windows heeft zo'n handler niet.
+- **SIGINT.** Op Unix beëindigt Ctrl-C (SIGINT) het commando met exit 130 en de regel `ebs-orphan-bill: interrupted by SIGINT` op standaardfout. Vóór het schrijven van het rapport is er niets naar standaarduitvoer gegaan; een SIGINT tijdens dat ene schrijven laat het schrijven afmaken en geeft dan exit 130. Windows heeft zo'n handler niet.
 - **JSON-schemaversie.** Elk `--json`-rapport begint met `"schema_version": 1`, een getal, als eerste sleutel. De tool heeft geen JSON-foutuitvoer: een mislukte run (exit 2) toont niets op standaarduitvoer.
 - **Stil en uitgebreid.** `--quiet` verbergt de waarschuwingen en toont alleen het resultaat en fouten; de JSON-lijst `warnings` blijft en de exitcode verandert niet. `--verbose` voegt per invoer een regel `reading <bestand>` toe en één regel `context:` met aantallen op standaardfout; standaarduitvoer blijft gelijk. Samen zijn ze een gebruiksfout (exit 2).
 - **Invoer.** Een bestand, één gzip-member (herkend aan de bytes `1f 8b`), een map (recursief, hoogstens 64 niveaus; slaat symlinks en andere niet-gewone bestanden over met een waarschuwing) of `-` voor standaardinvoer. Een bestand dat geen JSON is, is een fout, en één slecht bestand in een map stopt de hele run met exit 2. Eén bestand is één soort: volumes, snapshots of images. Dubbele id's zijn een fout. `nextToken` wordt niet gevolgd en zijn waarde wordt niet getoond. Eigenaar-id's, KMS-sleutel-id's, instance-id's en beschrijvingen worden niet getoond. Regeleinden, stuurtekens, onzichtbare tekens en richtingtekens in bestandsnamen en in argumenten die clap herhaalt worden als `\u{..}`-escapes op één regel getoond.

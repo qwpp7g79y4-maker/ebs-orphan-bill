@@ -1,12 +1,12 @@
-# ebs-wees-bill
+# ebs-orphan-bill
 
-[![crates.io](https://img.shields.io/crates/v/ebs-wees-bill.svg)](https://crates.io/crates/ebs-wees-bill) [![downloads](https://img.shields.io/crates/d/ebs-wees-bill.svg)](https://crates.io/crates/ebs-wees-bill) [![CI](https://github.com/qwpp7g79y4-maker/ebs-wees-bill/actions/workflows/ci.yml/badge.svg)](https://github.com/qwpp7g79y4-maker/ebs-wees-bill/actions/workflows/ci.yml) [![PEPAI checked](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fqwpp7g79y4-maker%2Febs-wees-bill%2Fmain%2F.github%2Fbadge.json)](QUALITY.md) [![MSRV 1.85](https://img.shields.io/badge/MSRV-1.85-blue.svg)](https://github.com/qwpp7g79y4-maker/ebs-wees-bill/blob/main/Cargo.toml) [![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](https://github.com/qwpp7g79y4-maker/ebs-wees-bill#license)
+[![crates.io](https://img.shields.io/crates/v/ebs-orphan-bill.svg)](https://crates.io/crates/ebs-orphan-bill) [![downloads](https://img.shields.io/crates/d/ebs-orphan-bill.svg)](https://crates.io/crates/ebs-orphan-bill) [![CI](https://github.com/qwpp7g79y4-maker/ebs-orphan-bill/actions/workflows/ci.yml/badge.svg)](https://github.com/qwpp7g79y4-maker/ebs-orphan-bill/actions/workflows/ci.yml) [![PEPAI checked](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fqwpp7g79y4-maker%2Febs-orphan-bill%2Fmain%2F.github%2Fbadge.json)](QUALITY.md) [![MSRV 1.85](https://img.shields.io/badge/MSRV-1.85-blue.svg)](https://github.com/qwpp7g79y4-maker/ebs-orphan-bill/blob/main/Cargo.toml) [![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](https://github.com/qwpp7g79y4-maker/ebs-orphan-bill#license)
 
 Find loose EBS volumes and snapshots older than N days with no AMI, and the monthly cost of each one. Reads files only. No network.
 
 ## Why
 
-An unattached volume and a snapshot that no image uses keep billing after the instance is gone. `ebs-wees-bill` reads JSON you already saved from `aws ec2 describe-volumes`, `aws ec2 describe-snapshots`, and `aws ec2 describe-images`. It lists the loose volumes and the old standard snapshots, with a monthly USD figure for each priced row.
+An unattached volume and a snapshot that no image uses keep billing after the instance is gone. `ebs-orphan-bill` reads JSON you already saved from `aws ec2 describe-volumes`, `aws ec2 describe-snapshots`, and `aws ec2 describe-images`. It lists the loose volumes and the old standard snapshots, with a monthly USD figure for each priced row.
 
 The report identifies orphans and monthly cost. It does not delete volumes or snapshots.
 
@@ -22,10 +22,10 @@ Rust 1.85 or newer. From a clone of this crate:
 
 ```sh
 cargo install --locked --path .
-ebs-wees-bill --help
+ebs-orphan-bill --help
 ```
 
-The binary is `ebs-wees-bill`. Version 1.0.0 is not published and has no git tag. The command is built with clap. There is no download: build from source. A binary built on Linux needs the glibc of the machine that built it; the release build checked for this page needed glibc 2.34, and a CI job fails when the highest glibc symbol of a release build is newer than that. Other libc builds (for example musl) and the oldest macOS or Windows version that works were not measured. macOS and Windows builds are checked by compiling only (see `QUALITY.md`).
+The binary is `ebs-orphan-bill`. Version 1.0.0 is not published and has no git tag. The command is built with clap. There is no download: build from source. A binary built on Linux needs the glibc of the machine that built it; the release build checked for this page needed glibc 2.34, and a CI job fails when the highest glibc symbol of a release build is newer than that. Other libc builds (for example musl) and the oldest macOS or Windows version that works were not measured. macOS and Windows builds are checked by compiling only (see `QUALITY.md`).
 
 ## Quick start
 
@@ -33,7 +33,7 @@ The sample files are `examples/volumes.json`, `examples/snapshots.json`, and `ex
 
 <!-- quick-start:start -->
 ```console
-$ ebs-wees-bill --as-of 2026-11-09 --older-than-days 30 examples/volumes.json examples/snapshots.json examples/images.json
+$ ebs-orphan-bill --as-of 2026-11-09 --older-than-days 30 examples/volumes.json examples/snapshots.json examples/images.json
 warning: examples/snapshots.json: page may be partial; nextToken was not followed
 warning: vol-44444444444444444: volume type standard is not priced
 warning: snap-44444444444444444: snapshot tier archive is not priced
@@ -69,16 +69,16 @@ note: this report identifies orphans and monthly cost. It does not delete volume
 
 ## Quickstart in 5 minutes
 
-1. Build the tool: `cargo install --locked --path .` (Rust 1.85 or newer). Check it with `ebs-wees-bill --version`.
+1. Build the tool: `cargo install --locked --path .` (Rust 1.85 or newer). Check it with `ebs-orphan-bill --version`.
 2. Save your own exports (the command only reads files; it never calls AWS): `aws ec2 describe-volumes > volumes.json`, `aws ec2 describe-snapshots --owner-ids self > snapshots.json`, and `aws ec2 describe-images --owners self > images.json`.
-3. Run `ebs-wees-bill --as-of "$(date -u +%F)" volumes.json snapshots.json images.json`. Without `--as-of` the volumes are priced and the snapshots are not classified.
+3. Run `ebs-orphan-bill --as-of "$(date -u +%F)" volumes.json snapshots.json images.json`. Without `--as-of` the volumes are priced and the snapshots are not classified.
 4. Read the last lines: `estimated_usd_month=` is the estimate for the loose volumes and old snapshots, from list prices and not from your invoice.
 5. Use it in a script: `--fail-usd 50` exits 1 when one orphan costs more than 50 USD per month, `--json` and `--md` change the format, and `--output report.md` writes a file.
 
 ## Options
 
 ```text
-ebs-wees-bill [OPTIONS] <FILE>...
+ebs-orphan-bill [OPTIONS] <FILE>...
 
   <FILE>...                 describe-volumes, describe-snapshots, or describe-images JSON: files, gzip, directories, or - for standard input
   --prices <FILE>           Price file. The default is the built-in US East (N. Virginia) EBS list
@@ -94,7 +94,7 @@ ebs-wees-bill [OPTIONS] <FILE>...
   -V, --version             Print version
 ```
 
-`--version` prints the crate version. A debug build made in a git checkout also prints the commit, as `ebs-wees-bill 1.0.0 (<40-character sha>)`; a release build, or an unpacked package without git, prints the version only. `--help` and `man/ebs-wees-bill.1` hold the full text. The notes under "How it counts" explain each option in detail.
+`--version` prints the crate version. A debug build made in a git checkout also prints the commit, as `ebs-orphan-bill 1.0.0 (<40-character sha>)`; a release build, or an unpacked package without git, prints the version only. `--help` and `man/ebs-orphan-bill.1` hold the full text. The notes under "How it counts" explain each option in detail.
 
 ## Example
 
@@ -119,8 +119,8 @@ Priced volume orphans total `16.00 + 5.00 = 21.00`. The priced snapshot total is
 Exit 0 is a priced report. Exit 1 means `--fail-usd` is set and some priced orphan's exact monthly USD is strictly greater. Exit 2 is bad input, bad usage, a standard output that cannot be written, or an `--output` file that cannot be written. `--fail-usd 16` matches the gp3 row, so that command exits 0. `--fail-usd 15.99` exits 1. An attached volume, a young snapshot, an AMI snapshot, an archive snapshot, and an unpriced magnetic volume do not trip the threshold. `--json` prints one JSON object on standard output. Warnings go to standard error in JSON mode and are also a `warnings` array in the object. Text mode prints warnings on standard output.
 
 ```sh
-ebs-wees-bill --as-of 2026-11-09 --fail-usd 16 examples/volumes.json examples/snapshots.json examples/images.json
-ebs-wees-bill --as-of 2026-11-09 --fail-usd 15.99 --json examples/volumes.json examples/snapshots.json examples/images.json
+ebs-orphan-bill --as-of 2026-11-09 --fail-usd 16 examples/volumes.json examples/snapshots.json examples/images.json
+ebs-orphan-bill --as-of 2026-11-09 --fail-usd 15.99 --json examples/volumes.json examples/snapshots.json examples/images.json
 ```
 
 ## Exit codes
@@ -161,8 +161,8 @@ Rates are the US East (N. Virginia) rows on <https://aws.amazon.com/ebs/pricing/
 | vol-11111111111111111 | gp3 | 100 | 4000 | 200 | 8.00 | 5.00 | 3.00 | 16.00 |
 ```
 
-- **SIGINT.** On Unix, Ctrl-C (SIGINT) ends the run with exit 130 and the line `ebs-wees-bill: interrupted by SIGINT` on standard error. Before the report is written nothing has gone to standard output, so an empty output is not a success; a SIGINT during the single write of the report lets that write finish (never half a report) and then exits 130. Windows has no such handler.
-- **Output file.** `--output FILE` writes the report (text, `--json`, or `--md`) to a file and leaves standard output empty. The report goes to a temporary file in the same directory (`.NAME.tmp-PID-N`), which is renamed over `FILE`, so the file is the old one or the whole new one; SIGINT removes the temporary file. An existing regular file is replaced. A symlink is refused and not followed, and so is a directory or any other file that is not a regular file. A missing parent directory is not created. A write error exits 2 with `ebs-wees-bill: cannot write FILE: ...`. Warnings in JSON mode still go to standard error. Exit 1 for `--fail-usd` still applies after the file is written.
+- **SIGINT.** On Unix, Ctrl-C (SIGINT) ends the run with exit 130 and the line `ebs-orphan-bill: interrupted by SIGINT` on standard error. Before the report is written nothing has gone to standard output, so an empty output is not a success; a SIGINT during the single write of the report lets that write finish (never half a report) and then exits 130. Windows has no such handler.
+- **Output file.** `--output FILE` writes the report (text, `--json`, or `--md`) to a file and leaves standard output empty. The report goes to a temporary file in the same directory (`.NAME.tmp-PID-N`), which is renamed over `FILE`, so the file is the old one or the whole new one; SIGINT removes the temporary file. An existing regular file is replaced. A symlink is refused and not followed, and so is a directory or any other file that is not a regular file. A missing parent directory is not created. A write error exits 2 with `ebs-orphan-bill: cannot write FILE: ...`. Warnings in JSON mode still go to standard error. Exit 1 for `--fail-usd` still applies after the file is written.
 - **JSON schema version.** Every `--json` report starts with `"schema_version": 1`, a number, as its first key. It changes only when a key is removed or changes meaning; adding a key does not change it. The tool has no JSON error output: a failing run (exit 2) prints nothing on standard output.
 - **Quiet and verbose.** `--quiet` hides the warnings (the `warning:` lines in text mode, the lines on standard error in JSON mode) and prints only the result and errors; the JSON `warnings` array stays and the exit code does not change. `--verbose` adds one `reading <file>` line per input and one `context:` line of counts on standard error; standard output is the same. Both together are a usage error and exit 2 (as for every other usage error).
 - **Threshold.** `--fail-usd AMOUNT` exits 1 when some priced orphan's exact monthly USD is strictly greater than `AMOUNT`. Equal does not fail. `AMOUNT` is plain digits with an optional fraction, no sign and no exponent, with at most 28 decimals and no more digits than a decimal holds exactly (the largest is 79228162514264337593543950335), or exit 2. Leading and trailing zeros do not count towards those digits, but the text is at most 40 characters and its decimals are counted with their zeros: `0.50000000000000000000000000000` has 29 decimals and exits 2, and so does `79228162514264337593543950335.00000000000` (41 characters). An amount that would be rounded when read, such as `1844674407370955161.49999999999`, is refused instead. For a snapshot priced from `FullSnapshotSizeInBytes`, the GB figure is rounded once, half away from zero, to the digits a decimal holds. The monthly amount is that figure times the rate, kept exact, and the threshold compares that exact amount.
@@ -198,7 +198,7 @@ Estimate from list prices, not your AWS invoice (free tier, credits, discounts n
 - One input file may be at most 268435456 bytes, gzip included, after decompression as well. A document may also hold at most 16777216 JSON values plus object keys (an object counts as one value, each key as one more), or the command exits 2 with `too many JSON values (at most 16777216)` before the tree is built; the same holds for a price file. A file is read whole and parsed in memory, so memory use is a multiple of the file size, and the multiple depends on the shape. Measured on Linux with the release binary: a realistic export of 64652 loose volumes with three tags each (33554410 bytes) took 1.01 s and about 341 MiB (about 10 times the file size); a valid 12000023-byte file with 6000000 numbers in one array took 0.86 s and about 619 MiB (about 54 times); a file of 134000113 bytes with 258189 such volumes took 5.18 s and about 1.3 GiB. At the item limit, three shapes of the same count (about 16.7 million items) took: one array of numbers (33554442 bytes) 2.80 s and 1.7 GiB; objects `{"a":1}` in an array (44739246 bytes) 6.22 s and 2.8 GiB; arrays nested 120 deep (33554290 bytes, the worst shape tried) 6.07 s and 4.8 GiB, which is about 150 times the file size. So the memory of one document is bounded at about 5 GiB, where the byte limit alone would have allowed tens of GB. `--json` is written straight into one string, so its memory is the output plus the same tree as text mode, not a second tree of values. Measured on Linux with the release binary (2026-11-20, one run each) on files of 580000, 1160000, and 2320000 volumes (33514733, 67029453, and 134058893 bytes, at most 16.2 million items): `--json` took 2.10 s, 4.11 s, and 9.67 s and 632728, 1263384, and 2523300 KiB (2.4 GiB for the largest; text mode took 2.11 s, 4.10 s, and 9.24 s and 651136, 1262636, and 2524368 KiB). The same file at 2320000 volumes took 20.87 s and 11293720 KiB (10.8 GiB) in `--json` mode before this change. With two warnings per volume (`io1` volumes `in-use` without `Iops`; files of 450000, 900000, and 1800000 volumes, 33652813, 67305613, and 134611213 bytes) `--json` took 4.33 s, 8.56 s, and 17.00 s and 843208, 1683972, and 3363948 KiB (3.2 GiB for the largest; text mode 2.48 s, 4.63 s, and 8.81 s and 754088, 1507436, and 3011280 KiB), where it took 27.48 s and 10170228 KiB (9.7 GiB) before. Time and memory double with the input in both modes. The `--json` time is above the text time when there are many warnings, because each is written to standard error and into the object. The item limit refuses a large realistic export: a file of 268000204 bytes with 516378 volumes with three tags each holds about 21.7 million items and is refused after 1.56 s; split such an export (about 400000 volumes of that shape fit). The size limit applies to each file. All files of one run are read before any is parsed, so their bytes add up: 8 files of 16 MiB (about 134 MB together) took 2.96 s and about 373 MiB. Split a very large export.
 - A closed standard output (`>&-`) is recognised on Linux only, where the command then exits 2. On other systems the check is not made. A full or broken standard output (`>/dev/full`, a closed pipe) exits 2, measured on Linux.
 - The test total is a Linux figure. Tests for symlinks and FIFOs run on Unix only, and tests that need `/dev/full`, a closed descriptor, a file name with a control character, or a file name that is not UTF-8 run on Linux only, so macOS and Windows run fewer tests.
-- `--json` is one pretty JSON object on standard output. Exit 0 is ok. Exit 1 is a priced orphan above `--fail-usd`. Exit 2 is bad input, bad usage, or a standard output that cannot be written. Exit 130 is SIGINT on Unix. `ebs-wees-bill --help` and `--version` exit 0. A usage error from clap exits 2.
+- `--json` is one pretty JSON object on standard output. Exit 0 is ok. Exit 1 is a priced orphan above `--fail-usd`. Exit 2 is bad input, bad usage, or a standard output that cannot be written. Exit 130 is SIGINT on Unix. `ebs-orphan-bill --help` and `--version` exit 0. A usage error from clap exits 2.
 
 ## Prices and responsibility
 

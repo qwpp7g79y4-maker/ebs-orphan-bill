@@ -7,7 +7,7 @@ use flate2::write::GzEncoder;
 use flate2::Compression;
 
 fn bin() -> &'static str {
-    env!("CARGO_BIN_EXE_ebs-wees-bill")
+    env!("CARGO_BIN_EXE_ebs-orphan-bill")
 }
 
 fn manifest() -> &'static str {
@@ -46,7 +46,7 @@ fn text(bytes: &[u8]) -> String {
 
 fn temp_dir(label: &str) -> PathBuf {
     let path = std::env::temp_dir().join(format!(
-        "ebs-wees-bill-{label}-{}-{}",
+        "ebs-orphan-bill-{label}-{}-{}",
         std::process::id(),
         std::time::SystemTime::now()
             .duration_since(std::time::UNIX_EPOCH)
@@ -96,7 +96,7 @@ fn unknown_flag_exits_2() {
     let out = run(&["--no-such-flag"]);
     assert_eq!(out.status.code(), Some(2));
     assert!(out.stdout.is_empty());
-    assert!(text(&out.stderr).contains("ebs-wees-bill"));
+    assert!(text(&out.stderr).contains("ebs-orphan-bill"));
 }
 
 #[test]
@@ -105,7 +105,7 @@ fn missing_file_exits_2() {
     assert_eq!(out.status.code(), Some(2));
     assert!(out.stdout.is_empty());
     let err = text(&out.stderr);
-    assert!(err.contains("ebs-wees-bill:"));
+    assert!(err.contains("ebs-orphan-bill:"));
     assert!(err.contains("examples/does-not-exist.json"));
 }
 
@@ -472,7 +472,7 @@ fn quick_start_block_matches_the_binary() {
     let command = lines.next().expect("command");
     assert_eq!(
         command,
-        "$ ebs-wees-bill --as-of 2026-11-09 --older-than-days 30 examples/volumes.json examples/snapshots.json examples/images.json"
+        "$ ebs-orphan-bill --as-of 2026-11-09 --older-than-days 30 examples/volumes.json examples/snapshots.json examples/images.json"
     );
     let mut expected = String::new();
     for line in lines {

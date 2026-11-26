@@ -174,7 +174,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "ebs-wees-bill"
+name = "ebs-orphan-bill"
 version = "1.0.0"
 dependencies = [
  "clap",

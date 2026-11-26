@@ -12,7 +12,7 @@ Three saved exports in the shape of `aws ec2 describe-volumes`, `describe-snapsh
 Run it from the repository root (the command reads the files and writes only to standard output):
 
 ```sh
-ebs-wees-bill --as-of 2026-11-09 --older-than-days 30 examples/volumes.json examples/snapshots.json examples/images.json
+ebs-orphan-bill --as-of 2026-11-09 --older-than-days 30 examples/volumes.json examples/snapshots.json examples/images.json
 ```
 
 The output is `report.expected`: `estimated_usd_month=21.50`, which is 21.00 for the volumes and 0.50 for the snapshots. `--json` and `--md` print the same amounts in other formats. A test (`tests/examples.rs`) runs the command and compares the output with `report.expected`, so the file cannot drift from the tool.

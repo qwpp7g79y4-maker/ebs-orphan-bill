@@ -8,7 +8,7 @@ use std::path::PathBuf;
 use std::process::Command;
 
 fn main() {
-    println!("cargo:rustc-check-cfg=cfg(ebs_wees_bill_git_sha)");
+    println!("cargo:rustc-check-cfg=cfg(ebs_orphan_bill_git_sha)");
     println!("cargo:rerun-if-changed=build.rs");
     track_git_head();
     if std::env::var("PROFILE").unwrap_or_default() != "debug" {
@@ -17,8 +17,8 @@ fn main() {
     let Some(sha) = git_sha() else {
         return;
     };
-    println!("cargo:rustc-cfg=ebs_wees_bill_git_sha");
-    println!("cargo:rustc-env=EBS_WEES_BILL_GIT_SHA={sha}");
+    println!("cargo:rustc-cfg=ebs_orphan_bill_git_sha");
+    println!("cargo:rustc-env=EBS_ORPHAN_BILL_GIT_SHA={sha}");
 }
 
 /// Rebuild when the commit changes: `.git/HEAD` names the branch, and the

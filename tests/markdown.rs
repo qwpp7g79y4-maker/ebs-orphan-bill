@@ -11,7 +11,7 @@ const ESTIMATE: &str =
     "Estimate from list prices, not your AWS invoice (free tier, credits, discounts not included)";
 
 fn run(extra: &[&str]) -> (i32, String, String) {
-    let output = Command::new(env!("CARGO_BIN_EXE_ebs-wees-bill"))
+    let output = Command::new(env!("CARGO_BIN_EXE_ebs-orphan-bill"))
         .current_dir(env!("CARGO_MANIFEST_DIR"))
         .args(["--as-of", "2026-11-09"])
         .args(extra)

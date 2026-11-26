@@ -4,7 +4,7 @@
 use std::alloc::{GlobalAlloc, Layout, System};
 use std::sync::atomic::{AtomicUsize, Ordering};
 
-use ebs_wees_bill::{bill_from_inputs, render, NamedBytes, Options};
+use ebs_orphan_bill::{bill_from_inputs, render, NamedBytes, Options};
 
 struct Counting;
 
