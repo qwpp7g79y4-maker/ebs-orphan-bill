@@ -24,7 +24,7 @@ fn readme_sections_are_in_order() {
         "## Why",
         "## Installation",
         "## Quick start",
-        "## Aan de slag in 5 minuten",
+        "## Quickstart in 5 minutes",
         "## Options",
         "## Example",
         "## Exit codes",

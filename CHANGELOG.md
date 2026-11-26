@@ -5,7 +5,9 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.0.0] - 2026-11-19
+
+Changes made after 2026-11-19; the version number did not change.
 
 ### Added
 
@@ -24,7 +26,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - The monthly cost is labelled as an estimate. The text totals are `estimated_usd_month=21.50`, `volume estimated_usd_month=...` and `snapshot estimated_usd_month=...`, one line says the figure is an estimate from list prices and not the invoice, and the JSON has `"estimate": true` and `estimate_note`. The JSON totals `usd_month`, `volume_usd_month`, and `snapshot_usd_month` are now `estimated_usd_month`, `volume_estimated_usd_month`, and `snapshot_estimated_usd_month`. The per-row `usd_month` is unchanged.
 
-## [1.0.0] - 2026-11-19
 
 ### Added
 

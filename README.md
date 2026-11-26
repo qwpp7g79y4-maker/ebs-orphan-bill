@@ -1,5 +1,7 @@
 # ebs-wees-bill
 
+[![crates.io](https://img.shields.io/crates/v/ebs-wees-bill.svg)](https://crates.io/crates/ebs-wees-bill) [![downloads](https://img.shields.io/crates/d/ebs-wees-bill.svg)](https://crates.io/crates/ebs-wees-bill) [![CI](https://github.com/qwpp7g79y4-maker/ebs-wees-bill/actions/workflows/ci.yml/badge.svg)](https://github.com/qwpp7g79y4-maker/ebs-wees-bill/actions/workflows/ci.yml) [![PEPAI checked](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fqwpp7g79y4-maker%2Febs-wees-bill%2Fmain%2F.github%2Fbadge.json)](QUALITY.md) [![MSRV 1.85](https://img.shields.io/badge/MSRV-1.85-blue.svg)](https://github.com/qwpp7g79y4-maker/ebs-wees-bill/blob/main/Cargo.toml) [![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](https://github.com/qwpp7g79y4-maker/ebs-wees-bill#license)
+
 Find loose EBS volumes and snapshots older than N days with no AMI, and the monthly cost of each one. Reads files only. No network.
 
 ## Why
@@ -65,7 +67,7 @@ note: this report identifies orphans and monthly cost. It does not delete volume
 ```
 <!-- quick-start:end -->
 
-## Aan de slag in 5 minuten
+## Quickstart in 5 minutes
 
 1. Build the tool: `cargo install --locked --path .` (Rust 1.85 or newer). Check it with `ebs-wees-bill --version`.
 2. Save your own exports (the command only reads files; it never calls AWS): `aws ec2 describe-volumes > volumes.json`, `aws ec2 describe-snapshots --owner-ids self > snapshots.json`, and `aws ec2 describe-images --owners self > images.json`.

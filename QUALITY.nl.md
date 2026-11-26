@@ -1,5 +1,7 @@
 # Kwaliteit
 
+pep: 10
+
 Meting van 2026-11-25. Gemeten op commit a483cd8cf9e0e4e653cd9d57914f4412ee77a493 ("Do not price creating, deleting, deleted or error volumes as a full month of orphan cost"), in een schone worktree. Deze commit voegt alleen documentatie toe; de meting hieronder geldt voor codecommit a483cd8.
 
 Nederlandse samenvatting van `QUALITY.md`; de Engelse tekst is leidend. Toolchain: stable rustc 1.99.0 / cargo 1.99.0, Linux x86_64. Geen tag, niet gepubliceerd, geen push. Alleen de vier commando's in de tabel hieronder zijn uitgevoerd. De rest is niet uitgevoerd (not run).
