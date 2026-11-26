@@ -65,7 +65,7 @@ note: this report identifies orphans and monthly cost. It does not delete volume
 ```
 <!-- quick-start:end -->
 
-## Aan de slag in 5 minuten
+## Quickstart in 5 minutes
 
 1. Build the tool: `cargo install --locked --path .` (Rust 1.85 or newer). Check it with `ebs-wees-bill --version`.
 2. Save your own exports (the command only reads files; it never calls AWS): `aws ec2 describe-volumes > volumes.json`, `aws ec2 describe-snapshots --owner-ids self > snapshots.json`, and `aws ec2 describe-images --owners self > images.json`.
