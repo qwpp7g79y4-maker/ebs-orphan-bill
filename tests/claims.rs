@@ -220,7 +220,7 @@ fn changelog_licenses_and_manifest() {
     assert!(changelog.contains("0.0455"));
     assert!(changelog.contains("not applied"));
     assert!(changelog.contains("does not delete"));
-    assert!(changelog.contains("This version is not published and has no git tag."));
+    assert!(!changelog.contains("not published"));
     assert!(!changelog.contains("delete-volume"));
     let mit = include_str!("../LICENSE-MIT");
     let apache = include_str!("../LICENSE-APACHE");

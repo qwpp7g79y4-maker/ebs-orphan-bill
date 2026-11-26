@@ -66,8 +66,6 @@ Changes made after 2026-11-19; the version number did not change.
 - `homepage` in `Cargo.toml` is `https://www.pepai.nl`.
 - `README.md` says GB and age are Decimal values with at most 28 decimal places, not exact decimals. It also gives the `--fail-usd` rules for length (40 characters) and for zeros in the decimals, the measured memory for three input shapes and for several files, that the price `source` refuses a control character (exit 2) and escapes the other hidden ones, and that `VolumeType` is matched without regard to case.
 
-This version is not published and has no git tag.
-
 ## [0.1.0] - 2026-11-09
 
 ### Added
@@ -76,5 +74,3 @@ This version is not published and has no git tag.
 - Built-in US East (N. Virginia) rates from <https://aws.amazon.com/ebs/pricing/>, read on 2026-11-09. The page price file was published 2026-11-07. gp3 storage is 0.08 USD per GB-month, gp2 is 0.10, io1 and io2 storage are 0.125, io1 IOPS and io2 tier 1 are 0.065, io2 tier 2 is 0.0455, io2 tier 3 is 0.03185, st1 is 0.045, sc1 is 0.015, and standard snapshots are 0.05. gp3 throughput is 0.04 USD per MB/s-month, the 40.96 USD per GiBps-month meter divided by 1024.
 - Magnetic standard volumes (0.05), snapshot archive storage (0.0125) and retrieval (0.03), and the account free tier are recorded and not applied.
 - Text table and `--json`. `--fail-usd` exits 1 when a priced orphan's exact monthly USD is strictly greater. The report does not delete volumes or snapshots.
-
-This version is not published and has no git tag.
