@@ -1,6 +1,6 @@
 # Kwaliteit
 
-pep: 8.6
+pep: 10
 
 Meting van 2026-11-25. Gemeten op commit a483cd8cf9e0e4e653cd9d57914f4412ee77a493 ("Do not price creating, deleting, deleted or error volumes as a full month of orphan cost"), in een schone worktree. Deze commit voegt alleen documentatie toe; de meting hieronder geldt voor codecommit a483cd8.
 

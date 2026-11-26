@@ -1,6 +1,6 @@
 # Quality
 
-pep: 8.6
+pep: 10
 
 Record of 2026-11-25. Measured on commit a483cd8cf9e0e4e653cd9d57914f4412ee77a493 ("Do not price creating, deleting, deleted or error volumes as a full month of orphan cost"), in a clean worktree. This commit adds documentation only; the measurements below apply to code commit a483cd8.
 
