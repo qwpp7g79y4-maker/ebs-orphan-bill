@@ -25,7 +25,7 @@ cargo install --locked --path .
 ebs-orphan-bill --help
 ```
 
-The binary is `ebs-orphan-bill`. Version 1.0.0 is not published and has no git tag. The command is built with clap. There is no download: build from source. A binary built on Linux needs the glibc of the machine that built it; the release build checked for this page needed glibc 2.34, and a CI job fails when the highest glibc symbol of a release build is newer than that. Other libc builds (for example musl) and the oldest macOS or Windows version that works were not measured. macOS and Windows builds are checked by compiling only (see `QUALITY.md`).
+The binary is `ebs-orphan-bill`. Version 1.0.0 is on crates.io: `cargo install ebs-orphan-bill`. The command is built with clap. There is no binary download. A binary built on Linux needs the glibc of the machine that built it; the release build checked for this page needed glibc 2.34, and a CI job fails when the highest glibc symbol of a release build is newer than that. Other libc builds (for example musl) and the oldest macOS or Windows version that works were not measured. macOS and Windows builds are checked by compiling only (see `QUALITY.md`).
 
 ## Quick start
 

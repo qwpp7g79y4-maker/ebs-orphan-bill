@@ -11,6 +11,7 @@ repository = "https://github.com/qwpp7g79y4-maker/ebs-orphan-bill"
 homepage = "https://www.pepai.nl"
 documentation = "https://github.com/qwpp7g79y4-maker/ebs-orphan-bill"
 keywords = ["aws", "ebs", "cost", "cli"]
+exclude = ["*-plugin/"]
 categories = ["command-line-utilities", "development-tools"]
 
 [lib]
