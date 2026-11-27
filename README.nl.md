@@ -25,7 +25,7 @@ cargo install --locked --path .
 ebs-orphan-bill --help
 ```
 
-De binary heet `ebs-orphan-bill`. Versie 1.0.2 heeft geen git-tag. Er is geen download: bouw vanuit de broncode. Een binary die op Linux is gebouwd heeft de glibc nodig van de machine die hem bouwde; de releasebuild voor deze pagina had glibc 2.34 nodig, en een CI-taak faalt als het hoogste glibc-symbool van een releasebuild nieuwer is. Andere libc-builds (bijvoorbeeld musl) en de oudste werkende macOS- of Windows-versie zijn niet gemeten. macOS- en Windows-builds worden alleen door compileren gecontroleerd (zie `QUALITY.md`).
+De binary heet `ebs-orphan-bill`. Er is geen download: bouw vanuit de broncode. Een binary die op Linux is gebouwd heeft de glibc nodig van de machine die hem bouwde; de releasebuild voor deze pagina had glibc 2.34 nodig, en een CI-taak faalt als het hoogste glibc-symbool van een releasebuild nieuwer is. Andere libc-builds (bijvoorbeeld musl) en de oudste werkende macOS- of Windows-versie zijn niet gemeten. macOS- en Windows-builds worden alleen door compileren gecontroleerd (zie `QUALITY.md`).
 
 ## Snelstart
 
