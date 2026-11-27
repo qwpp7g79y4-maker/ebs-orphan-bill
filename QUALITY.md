@@ -4,7 +4,7 @@ pep: 10
 
 Record of 2026-11-25. Measured on commit a483cd8cf9e0e4e653cd9d57914f4412ee77a493 ("Do not price creating, deleting, deleted or error volumes as a full month of orphan cost"), in a clean worktree. This commit adds documentation only; the measurements below apply to code commit a483cd8.
 
-Toolchain: stable rustc 1.99.0 / cargo 1.99.0, Linux x86_64. No tag, no publish, no push. Only the four commands in the table below were run. Everything else is marked "not run".
+Toolchain: stable rustc 1.99.0 / cargo 1.99.0, Linux x86_64. No tag, no push. Only the four commands in the table below were run. Everything else is marked "not run".
 
 ## Commands
 
