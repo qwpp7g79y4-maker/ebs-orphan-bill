@@ -88,7 +88,7 @@ fn help_and_version_exit_0() {
     assert!(help.stderr.is_empty());
     let version = run(&["--version"]);
     assert_eq!(version.status.code(), Some(0));
-    assert!(text(&version.stdout).contains("1.0.1"));
+    assert!(text(&version.stdout).contains("1.0.2"));
 }
 
 #[test]

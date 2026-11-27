@@ -233,7 +233,7 @@ fn changelog_licenses_and_manifest() {
     assert!(manifest.contains("clap"));
     assert!(manifest.contains("rust-version = \"1.85\""));
     assert!(manifest.contains("name = \"ebs-orphan-bill\""));
-    assert!(manifest.contains("version = \"1.0.1\""));
+    assert!(manifest.contains("version = \"1.0.2\""));
     assert!(!manifest.contains("aws-sdk"));
     assert!(!manifest.contains("reqwest"));
     assert!(readme().contains("MIT OR Apache-2.0"));

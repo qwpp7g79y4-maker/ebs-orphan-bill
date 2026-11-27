@@ -25,7 +25,7 @@ cargo install --locked --path .
 ebs-orphan-bill --help
 ```
 
-The binary is `ebs-orphan-bill`. Version 1.0.1 is on crates.io: `cargo install ebs-orphan-bill`. The command is built with clap. There is no binary download. A binary built on Linux needs the glibc of the machine that built it; the release build checked for this page needed glibc 2.34, and a CI job fails when the highest glibc symbol of a release build is newer than that. Other libc builds (for example musl) and the oldest macOS or Windows version that works were not measured. macOS and Windows builds are checked by compiling only (see `QUALITY.md`).
+The binary is `ebs-orphan-bill`. Version 1.0.2 is on crates.io: `cargo install ebs-orphan-bill`. The command is built with clap. There is no binary download. A binary built on Linux needs the glibc of the machine that built it; the release build checked for this page needed glibc 2.34, and a CI job fails when the highest glibc symbol of a release build is newer than that. Other libc builds (for example musl) and the oldest macOS or Windows version that works were not measured. macOS and Windows builds are checked by compiling only (see `QUALITY.md`).
 
 ## Quick start
 
@@ -94,7 +94,7 @@ ebs-orphan-bill [OPTIONS] <FILE>...
   -V, --version             Print version
 ```
 
-`--version` prints the crate version. A debug build made in a git checkout also prints the commit, as `ebs-orphan-bill 1.0.1 (<40-character sha>)`; a release build, or an unpacked package without git, prints the version only. `--help` and `man/ebs-orphan-bill.1` hold the full text. The notes under "How it counts" explain each option in detail.
+`--version` prints the crate version. A debug build made in a git checkout also prints the commit, as `ebs-orphan-bill 1.0.2 (<40-character sha>)`; a release build, or an unpacked package without git, prints the version only. `--help` and `man/ebs-orphan-bill.1` hold the full text. The notes under "How it counts" explain each option in detail.
 
 ## Example
 
